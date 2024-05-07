@@ -1,11 +1,17 @@
 ﻿using System.Reflection;
 using DR.Domain.Entities;
+using DR.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace DR.Infrastructure.Data {
+namespace DR.Infrastructure.Database {
 
-    public class DrContext : DbContext {
-        public DbSet<NotificationToken> NotificationTokens => Set<NotificationToken>();
+    public partial class DrContext : DbContext {
+        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<Permission> Permissions => Set<Permission>();
+        public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+
+        public DbSet<User> Users => Set<User>();
+
 
         public DrContext() {
         }
@@ -18,7 +24,7 @@ namespace DR.Infrastructure.Data {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseNpgsql("User ID=tuanvudev;Password=tuanvudev;Server=db.tvfersfc.com;Port=21427;Database=tuanvu_dev;Integrated Security=true;Pooling=true;");
+                optionsBuilder.UseNpgsql("User ID=postgres;Password=12345678x@X;Server=localhost;Port=5432;Database=Doran;Integrated Security=false;Pooling=true;");
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using DR.Infrastructure.Data;
+﻿using DR.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +8,11 @@ namespace DR.Infrastructure {
     public static class DependencyInjection {
 
         public static IServiceCollection AddDoranContext(this IServiceCollection services, IConfiguration configuration) {
-            services.AddDbContext<DrContext>(options => options.UseNpgsql(configuration.GetConnectionString(nameof(DrContext))));
+            services.AddDbContext<DrContext>(options => {
+                options.UseNpgsql(configuration.GetConnectionString(nameof(DrContext)));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+
             return services;
         }
 

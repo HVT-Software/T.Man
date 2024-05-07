@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DR.Domain\DR.Domain.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
+    <ProjectReference Include="..\DR.Domain\DR.Domain.csproj" />
   </ItemGroup>
 
 </Project>
