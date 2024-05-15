@@ -1,14 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using DR.Domain.Common;
 using DR.Domain.Common.Hashers;
 using DR.Domain.Constants;
-using DR.Domain.Services.Interfaces;
+using DR.Domain.Extentions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DR.Application.Handlers.AuthHandlers.Commands;
@@ -28,7 +26,7 @@ public class LoginResult {
 }
 
 public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginCommand, LoginResult>(serviceProvider) {
-    private readonly IRedisService redisCacheService = serviceProvider.GetRequiredService<IRedisService>();
+    //private readonly IRedisService redisCacheService = serviceProvider.GetRequiredService<IRedisService>();
 
     public override async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken) {
         request.Username = request.Username.ToLower().Trim();

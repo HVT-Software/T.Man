@@ -1,7 +1,6 @@
 using DR.Api.Extentions;
 using DR.Application;
 using DR.Domain;
-using DR.Domain.Extentions;
 using DR.Infrastructure;
 
 namespace DR.Api {
@@ -12,14 +11,14 @@ namespace DR.Api {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDoranContext(builder.Configuration);
-
-            builder.Services.AddJWT(builder.Configuration);
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddSwag();
+            builder.Services.AddJWT(builder.Configuration);
             builder.Services.AddCors();
-            builder.Services.AddMiddlewares();
 
+            builder.Services.AddMiddlewares();
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddMediatR();
@@ -28,13 +27,12 @@ namespace DR.Api {
             var app = builder.Build();
 
             app.UseSwag();
-
             app.UseHttpsRedirection();
             app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("*"));
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseMiddlewares();
             app.MapControllers();

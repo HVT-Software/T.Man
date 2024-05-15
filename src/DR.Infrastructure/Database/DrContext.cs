@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DR.Infrastructure.Database {
 
     public partial class DrContext : DbContext {
+        public DbSet<Attachment> Attachments => Set<Attachment>();
         public DbSet<Role> Roles => Set<Role>();
         public DbSet<Permission> Permissions => Set<Permission>();
         public DbSet<RolePermission> RolePermissions => Set<RolePermission>();

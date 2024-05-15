@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extentions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Crypto.AES" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" />
     <PackageReference Include="Microsoft.AspNetCore.Http" />

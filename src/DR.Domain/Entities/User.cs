@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using DR.Domain.Common;
+using DR.Domain.Common.Interfaces;
 
 namespace DR.Domain.Entities;
 

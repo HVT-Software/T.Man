@@ -18,8 +18,7 @@ public class UserPermissionDto {
         return items;
     }
 
-    private static List<UserPermissionDto> GetUserPermissions(List<Permission> permissions,
-        bool isAdmin, Guid? parentId = null) {
+    private static List<UserPermissionDto> GetUserPermissions(List<Permission> permissions, bool isAdmin, Guid? parentId = null) {
         var permissionDtos = permissions.Where(o => o.IsActive && o.ParentId == parentId).Select(o => new UserPermissionDto {
             Id = o.Id,
             ClaimName = o.ClaimName,

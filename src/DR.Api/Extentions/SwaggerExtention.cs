@@ -1,6 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace DR.Domain.Extentions;
+namespace DR.Api;
 
 public static class SwaggerExtention {
 
@@ -33,8 +34,10 @@ public static class SwaggerExtention {
     }
 
     public static IApplicationBuilder UseSwag(this IApplicationBuilder app) {
-        app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Doran API v1"));
+        app.UseSwagger().UseSwaggerUI(options => {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Doran API v1");
+            options.DocExpansion(DocExpansion.None);
+        });
         return app;
     }
 }

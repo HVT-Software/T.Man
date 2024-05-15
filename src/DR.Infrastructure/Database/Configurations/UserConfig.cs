@@ -28,7 +28,7 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
             Id = Guid.Parse("dec5aee5-12e1-4b61-8d3f-ad5d5235e6cd"),
             Name = "Admin",
             Username = "admin",
-            Password = "",
+            Password = "Wgkm5WCLFQbdzCjqx8AC3oZ0YU+hQET+Lpm+MfDusm2mCP9SlsPtzsSr9ohzF6XFMa1IaJacF7LHNh0/G68Uqg==",
             Phone = "",
             Address = "Thanh An, Hớn Quản, Bình Phước",
             IsActive = true,
