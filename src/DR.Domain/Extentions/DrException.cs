@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace DR.Domain.Common {
+namespace DR.Domain.Extentions {
 
     public sealed class DrException(string message) : Exception(message) {
 

@@ -1,11 +1,11 @@
 ﻿{
   "profiles": {
-    "FMS.Notification": {
+    "DR.Doran": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:8500",
+      "applicationUrl": "https://localhost:9090",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

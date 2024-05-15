@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using DR.Domain.Common;
+using DR.Domain.Extentions;
 using Microsoft.AspNetCore.Http;
 
 namespace DR.Application.Middlewares;

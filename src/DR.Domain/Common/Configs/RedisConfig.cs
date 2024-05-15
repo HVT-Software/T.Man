@@ -1,4 +1,4 @@
-﻿namespace DR.Domain.Common {
+﻿namespace DR.Domain.Common.Configs {
 
     public class RedisConfig {
         public string Host { get; set; } = string.Empty;
