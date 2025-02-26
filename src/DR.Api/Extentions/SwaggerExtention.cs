@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace DR.Api;
+namespace DR.Api.Extentions;
 
 public static class SwaggerExtention {
 

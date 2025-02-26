@@ -13,7 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DR.Application\DR.Application.csproj" />
+    <Folder Include="Handlers\UserHandlers\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DR.Infrastructure\DR.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
 using DR.Api.Extentions;
-using DR.Application;
 using DR.Domain;
 using DR.Infrastructure;
 
