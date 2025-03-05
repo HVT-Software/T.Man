@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using T.Api.Common.Base;
-using T.Api.Handlers.AuthHandlers.Commands;
+using T.Application.Base;
+using T.Application.Queries.Auth;
 using T.Domain.Common;
 
 namespace T.Api.Controllers;

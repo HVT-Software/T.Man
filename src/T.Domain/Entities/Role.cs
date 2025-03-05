@@ -1,21 +1,19 @@
-﻿using System.ComponentModel;
-using T.Domain.Common.Interfaces;
+﻿using T.Domain.Common.Interfaces;
 
 namespace T.Domain.Entities;
 
 public class Role : IEntity {
     public Guid Id { get; set; }
+    public Guid MerchantId { get; set; }
 
-    [Description("Mã phân quyền")]
     public string Code { get; set; } = null!;
-
-    [Description("Tên phân quyền")]
     public string Name { get; set; } = null!;
 
     public string SearchName { get; set; } = null!;
-    public bool IsDeleted { get; set; }
-    public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreateAt { get; } = DateTimeOffset.UtcNow;
+
+    public bool IsDelete { get; set; }
 
     public virtual ICollection<User>? Users { get; set; }
-    public virtual ICollection<RolePermission>? RolePermissions { get; set; }
+    public virtual ICollection<RoleAction>? RoleActions { get; set; }
 }

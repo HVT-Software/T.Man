@@ -19,4 +19,8 @@
     <ProjectReference Include="..\T.Domain\T.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Migrations\" />
+  </ItemGroup>
+
 </Project>

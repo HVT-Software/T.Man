@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using T.Domain.Entities;
-
-namespace T.Infrastructure.Database.Configurations;
+﻿namespace T.Infrastructure.Database.Configurations;
 
 internal class UserConfig : IEntityTypeConfiguration<User> {
 
@@ -11,30 +7,20 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
 
         builder.HasKey(o => o.Id);
         builder.Property(o => o.Id);
-        builder.Property(o => o.RoleId);
+        builder.Property(o => o.RoleId).HasMaxLength(36);
+        builder.Property(o => o.MerchantId).HasMaxLength(36).IsRequired();
 
-        builder.Property(o => o.Username).IsRequired();
-        builder.Property(o => o.Password).IsRequired();
+        builder.Property(o => o.Username).HasMaxLength(50).IsRequired();
+        builder.Property(o => o.Password).HasMaxLength(500).IsRequired();
 
         builder.Property(o => o.Name).HasMaxLength(255).IsRequired();
         builder.Property(o => o.Address).HasMaxLength(255);
 
+        // index
+        builder.HasIndex(o => o.MerchantId);
+        builder.HasIndex(o => new { o.MerchantId, o.Username }).IsUnique();
+
         // fk
         builder.HasOne(o => o.Role).WithMany(o => o.Users).HasForeignKey(o => o.RoleId);
-
-        // seed data
-
-        builder.HasData(new User {
-            Id = Guid.Parse("dec5aee5-12e1-4b61-8d3f-ad5d5235e6cd"),
-            Name = "Admin",
-            Username = "admin",
-            Password = "Wgkm5WCLFQbdzCjqx8AC3oZ0YU+hQET+Lpm+MfDusm2mCP9SlsPtzsSr9ohzF6XFMa1IaJacF7LHNh0/G68Uqg==",
-            Phone = "",
-            Address = "Thanh An, Hớn Quản, Bình Phước",
-            IsActive = true,
-            IsAdmin = true,
-            IsDeleted = false,
-            IsSystem = true,
-        });
     }
 }

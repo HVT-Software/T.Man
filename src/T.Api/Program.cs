@@ -1,4 +1,5 @@
-using T.Api.Extentions;
+using T.Api.Extensions;
+using T.Application;
 using T.Domain;
 using T.Infrastructure;
 
@@ -9,19 +10,19 @@ namespace T.Api {
         public static void Main(string[] args) {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDoranContext(builder.Configuration);
+            builder.Services.AddHvtContext(builder.Configuration);
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddSwag();
-            builder.Services.AddJWT(builder.Configuration);
+            builder.Services.AddJwt(builder.Configuration);
             builder.Services.AddCors();
 
             builder.Services.AddMiddlewares();
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddMediatR();
-            builder.Services.AddRedis(builder.Configuration);
+            builder.Services.AddRedis();
 
             var app = builder.Build();
 
