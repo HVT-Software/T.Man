@@ -14,6 +14,9 @@ namespace T.Infrastructure.Database.Configurations {
 
             // index
             builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
+
+            // relationship
+            builder.HasMany(o => o.Users).WithOne(o => o.Merchant).HasForeignKey(o => o.MerchantId);
         }
     }
 }

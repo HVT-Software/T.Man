@@ -13,7 +13,6 @@ using T.Domain.Interfaces;
 namespace T.Application.Queries.Auth;
 
 public class LoginCommand : IRequest<LoginResult> {
-    public string MerchantCode { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 }
@@ -37,15 +36,10 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginC
     public override async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken) {
         request.Username = request.Username.ToLower().Trim();
 
-        var merchant = await this.db.Merchants.AsNoTracking()
-            .Where(o => o.Code == request.MerchantCode)
-            .FirstOrDefaultAsync(cancellationToken);
-        AppEx.ThrowIfNull(merchant, Messages.User_NotFound);
-        AppEx.ThrowIfFalse(merchant.IsActive, Messages.User_Inactive);
-
         var user = await this.db.Users
             .Include(o => o.Role)
-            .Where(o => o.MerchantId == merchant.Id && o.Username == request.Username)
+            .Include(o => o.Merchant)
+            .Where(o => o.Username == request.Username)
             .FirstOrDefaultAsync(cancellationToken);
         AppEx.ThrowIfNull(user, Messages.User_NotFound);
         AppEx.ThrowIfFalse(PasswordHelper.Verify(request.Password, user.Password), Messages.User_IncorrectPassword);
@@ -65,7 +59,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginC
 
 
         var claims = new List<Claim>() {
-            new(Constants.TokenMerchantId, merchant.Id.ToString()),
+            new(Constants.TokenMerchantId, user.Merchant!.Id.ToString()),
             new(Constants.TokenUserId, user.Id.ToString()),
             new(Constants.TokenSession, user.LastSession.ToString())
         };
@@ -78,17 +72,17 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginC
         var expiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds();
         var ttlKey = TimeSpan.FromMilliseconds(expiredTime - user.LastSession);
 
-        var sessionKey = RedisKey.GetSessionKey(environment, merchant.Id, user.Id);
+        var sessionKey = RedisKey.GetSessionKey(environment, user.Merchant!.Id, user.Id);
         await this.redisService.SetAsync(sessionKey, user.LastSession, ttlKey);
-        var actionKey = RedisKey.GetSessionActionKey(environment, merchant.Id, user.Id);
+        var actionKey = RedisKey.GetSessionActionKey(environment, user.Merchant!.Id, user.Id);
         await this.redisService.SetValueAsync(actionKey, actions, ttlKey);
 
         return new LoginResult {
             RefreshToken = this.GenerateRefreshToken(claims),
             Token = this.GenerateToken(claims, expiredAt),
             ExpiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds(),
-            MerchantCode = merchant.Code,
-            MerchantName = merchant.Name,
+            MerchantCode = user.Merchant!.Code,
+            MerchantName = user.Merchant!.Name,
             Username = user.Username,
             Name = user.Name,
             Session = user.LastSession,

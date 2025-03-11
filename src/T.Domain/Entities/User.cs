@@ -23,4 +23,5 @@ public class User : IEntity {
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
     public virtual Role? Role { get; set; }
+    public virtual Merchant? Merchant { get; set; }
 }

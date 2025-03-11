@@ -22,5 +22,6 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
 
         // fk
         builder.HasOne(o => o.Role).WithMany(o => o.Users).HasForeignKey(o => o.RoleId);
+        builder.HasOne(o => o.Merchant).WithMany(o => o.Users).HasForeignKey(o => o.MerchantId);
     }
 }

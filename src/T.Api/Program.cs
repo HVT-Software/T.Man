@@ -22,7 +22,7 @@ namespace T.Api {
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddMediatR();
-            builder.Services.AddRedis();
+            builder.Services.AddRedis(builder.Configuration);
 
             var app = builder.Build();
 
