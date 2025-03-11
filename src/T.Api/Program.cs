@@ -21,7 +21,7 @@ namespace T.Api {
             builder.Services.AddMiddlewares();
             builder.Services.AddHttpContextAccessor();
 
-            builder.Services.AddMediatR();
+            builder.Services.AddApplication();
             builder.Services.AddRedis(builder.Configuration);
 
             var app = builder.Build();

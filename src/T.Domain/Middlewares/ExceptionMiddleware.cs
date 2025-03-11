@@ -5,7 +5,7 @@ using T.Domain.Extensions;
 
 namespace T.Domain.Middlewares;
 
-public class ExceptionMiddleware : IMiddleware {
+public class ExceptionMiddleware : IExceptionHandler {
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
         try {

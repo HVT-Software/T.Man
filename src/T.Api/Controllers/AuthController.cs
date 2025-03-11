@@ -15,7 +15,7 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
         return Result<LoginResult>.Ok(res);
     }
 
-    [HttpPost, Route("register")]
+    [HttpPost, Route("register"), Authorize]
     public async Task<Result> Register(LoginCommand req) {
         var res = await this.mediator.Send(req);
         return Result<LoginResult>.Ok(res);
