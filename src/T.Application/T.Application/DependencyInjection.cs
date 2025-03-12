@@ -30,10 +30,7 @@ namespace T.Application {
             if (providers == null) return services;
 
             services
-                .AddAuthentication(options => {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
@@ -45,15 +42,15 @@ namespace T.Application {
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(providers.Jwt.Key))
                     };
                 })
-                .AddGoogle("google", options => {
+                .AddGoogle("Google", options => {
                     options.ClientId = providers.Google.ClientId;
                     options.ClientSecret = providers.Google.ClientSecret;
-                    options.CallbackPath = "/api/auth/callback/google";
+                    options.CallbackPath = "/api/auth/callback/Google";
                 })
-                .AddOAuth("github", options => {
+                .AddOAuth("Github", options => {
                     options.ClientId = providers.Github.ClientId;
                     options.ClientSecret = providers.Github.ClientSecret;
-                    options.CallbackPath = "/api/auth/github/callback";
+                    options.CallbackPath = "/api/auth/callback/github";
                     options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
                     options.TokenEndpoint = "https://github.com/login/oauth/access_token";
                     options.UserInformationEndpoint = "https://api.github.com/user";
@@ -68,10 +65,10 @@ namespace T.Application {
                         }
                     };
                 })
-                .AddOAuth("discord", options => {
+                .AddOAuth("Discord", options => {
                     options.ClientId = providers.Discord.ClientId;
                     options.ClientSecret = providers.Discord.ClientSecret;
-                    options.CallbackPath = "/api/auth/discord/callback";
+                    options.CallbackPath = "/api/auth/callback/Discord";
                     options.AuthorizationEndpoint = "https://discord.com/api/oauth2/authorize";
                     options.TokenEndpoint = "https://discord.com/api/oauth2/token";
                     options.UserInformationEndpoint = "https://discord.com/api/users/@me";
