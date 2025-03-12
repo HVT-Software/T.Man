@@ -12,7 +12,7 @@ using T.Domain.Interfaces;
 
 namespace T.Application.Queries.Auth;
 
-public class LoginCommand : IRequest<LoginResult> {
+public class LoginQuery : IRequest<LoginResult> {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
 }
@@ -30,10 +30,10 @@ public class LoginResult {
 
 
 
-public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginCommand, LoginResult>(serviceProvider) {
+public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQuery, LoginResult>(serviceProvider) {
     private readonly IRedisService redisService = serviceProvider.GetRequiredService<IRedisService>();
 
-    public override async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken) {
+    public override async Task<LoginResult> Handle(LoginQuery request, CancellationToken cancellationToken) {
         request.Username = request.Username.ToLower().Trim();
 
         var user = await this.db.Users

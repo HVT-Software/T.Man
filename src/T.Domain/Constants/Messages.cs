@@ -1,6 +1,14 @@
 ﻿namespace T.Domain.Constants;
 
 public static class Messages {
+    public const string Success = "Thành công";
+    public const string Error = "Lỗi hệ thống";
+    public const string BadRequest = "Yêu cầu không hợp lệ";
+    public const string NotFound = "Không tìm thấy dữ liệu";
+    public const string Unauthorized = "Không có quyền truy cập";
+    public const string Validation_Fail = "Dữ liệu không hợp lệ";
+
+
     public const string User_NotFound = "Người dùng không tồn tại";
     public const string User_Inactive = "Người dùng đã bị vô hiệu hóa";
     public const string User_IncorrectPassword = "Mật khẩu không chính xác";

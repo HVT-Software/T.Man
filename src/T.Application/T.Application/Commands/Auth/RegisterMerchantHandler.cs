@@ -11,6 +11,7 @@ namespace T.Application.Commands.Auth {
         public required string Password { get; set; }
         public string? Email { get; set; }
         public string? Name { get; set; }
+        public string? Image { get; set; }
     }
 
     internal class RegisterMerchantCommandValidator : AbstractValidator<RegisterMerchantCommand> {
@@ -53,6 +54,7 @@ namespace T.Application.Commands.Auth {
                 CreatedAt = DateTimeOffset.UtcNow,
                 Email = request.Email,
                 Name = request.Name ?? "",
+                Avatar = request.Image,
             };
             await this.db.Users.AddAsync(user, cancellationToken);
         }

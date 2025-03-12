@@ -17,6 +17,7 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
         builder.Property(o => o.Address).HasMaxLength(255);
         builder.Property(o => o.Phone).HasMaxLength(11);
         builder.Property(o => o.Email).HasMaxLength(255);
+        builder.Property(o => o.Avatar).HasMaxLength(2000);
 
         // index
         builder.HasIndex(o => o.MerchantId);
