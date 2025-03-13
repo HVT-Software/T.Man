@@ -3,8 +3,12 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using T.Application.Base;
@@ -29,61 +33,31 @@ namespace T.Application {
             var providers = configuration.GetSection("Providers").Get<Providers>();
             if (providers == null) return services;
 
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => {
+            services.AddAuthentication()
+                .AddJwtBearer(GoogleDefaults.AuthenticationScheme, options => {
+                    options.Audience = configuration["Authentication:Google:ClientId"];
+                    options.Authority = "https://accounts.google.com";
+                    options.Challenge = GoogleDefaults.AuthenticationScheme;
                     options.TokenValidationParameters = new TokenValidationParameters {
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = providers.Jwt.Issuer,
-                        ValidAudience = providers.Jwt.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(providers.Jwt.Key))
+                        ValidateIssuerSigningKey = true
                     };
-                })
-                .AddGoogle("Google", options => {
-                    options.ClientId = providers.Google.ClientId;
-                    options.ClientSecret = providers.Google.ClientSecret;
-                    options.CallbackPath = "/api/auth/callback/Google";
-                })
-                .AddOAuth("Github", options => {
-                    options.ClientId = providers.Github.ClientId;
-                    options.ClientSecret = providers.Github.ClientSecret;
-                    options.CallbackPath = "/api/auth/callback/github";
-                    options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
-                    options.TokenEndpoint = "https://github.com/login/oauth/access_token";
-                    options.UserInformationEndpoint = "https://api.github.com/user";
-                    options.SaveTokens = true;
-                    options.Events = new OAuthEvents {
-                        OnCreatingTicket = async context => {
-                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-                            var response = await context.Backchannel.SendAsync(request);
-                            var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-                            context.RunClaimActions(user.RootElement);
-                        }
-                    };
-                })
-                .AddOAuth("Discord", options => {
-                    options.ClientId = providers.Discord.ClientId;
-                    options.ClientSecret = providers.Discord.ClientSecret;
-                    options.CallbackPath = "/api/auth/callback/Discord";
-                    options.AuthorizationEndpoint = "https://discord.com/api/oauth2/authorize";
-                    options.TokenEndpoint = "https://discord.com/api/oauth2/token";
-                    options.UserInformationEndpoint = "https://discord.com/api/users/@me";
-                    options.Scope.Add("identify");
-                    options.SaveTokens = true;
-                    options.Events = new OAuthEvents {
-                        OnCreatingTicket = async context => {
-                            var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-                            var response = await context.Backchannel.SendAsync(request);
-                            var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
-                            context.RunClaimActions(user.RootElement);
-                        }
-                    };
+                }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecret"]!))
                 });
+
+            services.AddAuthorization(options => {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme, GoogleDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
 
             services.AddAuthorization();
             return services;

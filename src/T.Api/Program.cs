@@ -12,7 +12,7 @@ namespace T.Api {
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddHvtContext(builder.Configuration);
-
+            builder.Services.Configure<CookiePolicyOptions>(builder.Configuration);
             builder.Services.AddAuth(builder.Configuration);
             builder.Services.AddControllers().AddNewtonsoftJson();
             builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +33,8 @@ namespace T.Api {
             app.UseSwag();
             app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("*"));
             app.UseHttpsRedirection();
-
+            app.UseCookiePolicy();
+            
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

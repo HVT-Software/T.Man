@@ -18,29 +18,8 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
     }
 
 
-    [HttpGet("/callback/{provider}")]
-    public async Task<Result> Callback(string provider) {
-        var result = await HttpContext.AuthenticateAsync();
-        if (!result.Succeeded) throw new BadHttpRequestException("Lỗi ở đây");
-
-        // Lấy thông tin user từ Claims
-        var claims = result.Principal.Claims;
-        IEnumerable<Claim> enumerable = claims as Claim[] ?? claims.ToArray();
-        var email = enumerable.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-        var name = enumerable.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-
-        return Result.Ok();
-    }
-
     [HttpGet("{provider}")]
-    public IActionResult Login(string provider) {
-        var mapProvider = provider switch {
-            "google" => "Google",
-            "github" => "Github",
-            "discord" => "Discord",
-            _ => throw new BadHttpRequestException("Provider không hợp lệ")
-        };
-        var data = new AuthenticationProperties { RedirectUri = Url.Action(nameof(Callback), new { mapProvider }) };
-        return Challenge(data, mapProvider);
+    public Result Login(string provider) {
+        return Result.Ok();
     }
 }
