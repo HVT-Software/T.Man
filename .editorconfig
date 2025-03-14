@@ -22,7 +22,7 @@ indent_size = 4
 tab_width = 4
 
 # New line preferences
-end_of_line = lf
+end_of_line = crlf
 insert_final_newline = true
 
 #### .NET Coding Conventions ####
@@ -388,6 +388,6 @@ dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_prefer_collection_expression = true:suggestion
 tab_width = 4
 indent_size = 4
-end_of_line = lf
+end_of_line = crlf
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 dotnet_style_allow_multiple_blank_lines_experimental = true:silent

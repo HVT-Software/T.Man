@@ -12,15 +12,20 @@ public class User : IEntity {
 
     public string Name { get; set; } = null!;
     public string? Phone { get; set; }
+    public string? Email { get; set; }
     public string? Address { get; set; }
-    public bool IsActive { get; set; }
+    public string? Avatar { get; set; }
 
+
+    public bool IsActive { get; set; }
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
     public bool IsDelete { get; set; }
+    public string? Provider { get; set; }
 
     public long LastSession { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
     public virtual Role? Role { get; set; }
+    public virtual Merchant? Merchant { get; set; }
 }

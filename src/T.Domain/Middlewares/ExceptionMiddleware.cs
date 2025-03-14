@@ -1,25 +1,45 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using T.Domain.Common;
+using T.Domain.Constants;
+using T.Domain.Exceptions;
 using T.Domain.Extensions;
 
 namespace T.Domain.Middlewares;
 
 public class ExceptionMiddleware : IMiddleware {
-
     public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
         try {
             await next(context);
+        } catch (ValidationException ex) {
+            await HandleValidationException(context, ex);
         } catch (AppEx ex) {
-            await HandleException(context, (int)HttpStatusCode.OK, ex);
-        } catch (Exception ex) {
-            await HandleException(context, (int)HttpStatusCode.BadRequest, ex);
+            await HandleAppException(context, ex);
+        } catch (UnauthorizedAccessException) {
+            await HandleUnauthorizedAccessException(context);
+        } catch (Exception) {
+            await HandleException(context);
         }
     }
 
-    private static async Task HandleException(HttpContext context, int statusCode, Exception exception) {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = statusCode;
-        await context.Response.WriteAsync(Result.Fail(exception.Message).ToString());
+    private async Task HandleValidationException(HttpContext httpContext, Exception ex) {
+        var exception = (ValidationException)ex;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await httpContext.Response.WriteAsJsonAsync(Result.Fail(exception.Errors));
+    }
+
+    private async Task HandleAppException(HttpContext httpContext, Exception ex) {
+        var exception = (AppEx)ex;
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await httpContext.Response.WriteAsJsonAsync(Result.Fail(exception.Message));
+    }
+
+    private async Task HandleException(HttpContext httpContext) {
+        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await httpContext.Response.WriteAsJsonAsync(Result.Fail(Messages.Error));
+    }
+
+    private async Task HandleUnauthorizedAccessException(HttpContext httpContext) {
+        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await httpContext.Response.WriteAsJsonAsync(Result.Fail(Messages.User_NotAllowAccess));
     }
 }

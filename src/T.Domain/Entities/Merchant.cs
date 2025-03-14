@@ -7,5 +7,7 @@
 
         public bool IsActive { get; set; }
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+        public virtual ICollection<User>? Users { get; set; }
     }
 }

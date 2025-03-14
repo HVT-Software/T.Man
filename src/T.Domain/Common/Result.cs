@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using T.Domain.Constants;
 
 namespace T.Domain.Common;
 
@@ -9,13 +10,18 @@ public class Result {
 
     [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
     public string? Message { get; set; }
+    public IDictionary<string, string[]>? Errors { get; set; }
 
     public static Result Ok() {
-        return new() { Success = true };
+        return new Result { Success = true };
     }
 
     public static Result Fail(string? message = null) {
-        return new() { Message = message };
+        return new Result { Message = message };
+    }
+
+    public static Result Fail(IDictionary<string, string[]>? errors = null) {
+        return new Result { Message = Messages.Validation_Fail, Errors = errors };
     }
 
     public override string ToString() {
@@ -29,7 +35,7 @@ public class Result<T> : Result {
     public T? Data { get; set; }
 
     public static Result<T> Ok(T? data) {
-        return new() { Success = true, Data = data };
+        return new Result<T> { Success = true, Data = data };
     }
 }
 
