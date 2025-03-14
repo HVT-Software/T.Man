@@ -12,6 +12,7 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
 
         builder.Property(o => o.Username).HasMaxLength(50).IsRequired();
         builder.Property(o => o.Password).HasMaxLength(500).IsRequired();
+        builder.Property(o => o.Provider).HasMaxLength(50);
 
         builder.Property(o => o.Name).HasMaxLength(255).IsRequired();
         builder.Property(o => o.Address).HasMaxLength(255);

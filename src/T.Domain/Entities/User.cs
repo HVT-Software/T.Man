@@ -21,6 +21,7 @@ public class User : IEntity {
     public bool IsAdmin { get; set; }
     public bool IsSystem { get; set; }
     public bool IsDelete { get; set; }
+    public string? Provider { get; set; }
 
     public long LastSession { get; set; }
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

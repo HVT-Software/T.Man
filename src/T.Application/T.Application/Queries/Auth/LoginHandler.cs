@@ -15,6 +15,7 @@ namespace T.Application.Queries.Auth;
 public class LoginQuery : IRequest<LoginResult> {
     public string Username { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
+    public string HasPassword { get; set; } = string.Empty;
 }
 
 public class LoginResult {
@@ -23,7 +24,9 @@ public class LoginResult {
     public string MerchantCode { get; set; } = string.Empty;
     public string MerchantName { get; set; } = string.Empty;
     public string Username { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+    public string Image { get; set; } = string.Empty;
     public long ExpiredTime { get; set; }
     public long Session { get; set; }
 }
@@ -42,7 +45,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
             .Where(o => o.Username == request.Username)
             .FirstOrDefaultAsync(cancellationToken);
         AppEx.ThrowIfNull(user, Messages.User_NotFound);
-        AppEx.ThrowIfFalse(PasswordHelper.Verify(request.Password, user.Password), Messages.User_IncorrectPassword);
+        AppEx.ThrowIfFalse(PasswordHelper.Verify(request.Password, user.Password) || request.HasPassword.Equals(user.Password), Messages.User_IncorrectPassword);
 
         List<string> actions = [];
         if (!user.IsAdmin) {
@@ -56,7 +59,6 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
 
         user.LastSession = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         await this.db.SaveChangesAsync(cancellationToken);
-
 
         var claims = new List<Claim>() {
             new(Constants.TokenMerchantId, user.Merchant!.Id.ToString()),
@@ -86,6 +88,8 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
             Username = user.Username,
             Name = user.Name,
             Session = user.LastSession,
+            Email = user.Email,
+            Image = user.Avatar ?? ""
         };
     }
 
