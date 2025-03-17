@@ -24,8 +24,12 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
         builder.HasIndex(o => new { o.MerchantId, o.Username }).IsUnique();
 
         // fk
+
         builder.HasOne(o => o.Role).WithMany(o => o.Users).HasForeignKey(o => o.RoleId);
         builder.HasOne(o => o.Merchant).WithMany(o => o.Users).HasForeignKey(o => o.MerchantId);
+
+        builder.HasMany(o => o.Debit).WithOne(o => o.User).HasForeignKey(o => o.UserId);
         builder.HasMany(o => o.Transactions).WithOne(o => o.User).HasForeignKey(o => o.UserId);
+        builder.HasMany(o => o.Notifications).WithOne(o => o.User).HasForeignKey(o => o.UserId);
     }
 }
