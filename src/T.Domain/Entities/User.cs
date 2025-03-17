@@ -3,7 +3,6 @@
 namespace T.Domain.Entities;
 
 public class User : IEntity {
-    public Guid Id { get; set; }
     public Guid? RoleId { get; set; }
     public Guid MerchantId { get; set; }
 
@@ -28,4 +27,7 @@ public class User : IEntity {
 
     public virtual Role? Role { get; set; }
     public virtual Merchant? Merchant { get; set; }
+
+    public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
+    public Guid Id { get; set; }
 }

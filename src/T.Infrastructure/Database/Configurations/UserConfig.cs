@@ -1,7 +1,6 @@
 ﻿namespace T.Infrastructure.Database.Configurations;
 
 internal class UserConfig : IEntityTypeConfiguration<User> {
-
     public void Configure(EntityTypeBuilder<User> builder) {
         builder.ToTable(nameof(User));
 
@@ -27,5 +26,6 @@ internal class UserConfig : IEntityTypeConfiguration<User> {
         // fk
         builder.HasOne(o => o.Role).WithMany(o => o.Users).HasForeignKey(o => o.RoleId);
         builder.HasOne(o => o.Merchant).WithMany(o => o.Users).HasForeignKey(o => o.MerchantId);
+        builder.HasMany(o => o.Transactions).WithOne(o => o.User).HasForeignKey(o => o.UserId);
     }
 }
