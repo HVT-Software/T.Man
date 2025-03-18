@@ -18,6 +18,15 @@ charset = utf-8
 indent_size = 4
 indent_style = space
 
+# New line preferences
+csharp_new_line_before_catch = false # No newline before catch
+csharp_new_line_before_else = false # No newline before else
+csharp_new_line_before_finally = false # No newline before finally
+csharp_new_line_before_members_in_anonymous_types = true # Newline between members in anonymous types
+csharp_new_line_before_members_in_object_initializers = true # Newline between members in object initializers
+csharp_new_line_before_open_brace = none # Braces on same line (K&R style)
+csharp_new_line_between_query_expression_clauses = true # Newline between query clauses
+
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 csharp_prefer_braces = true:error
 csharp_prefer_simple_default_expression = true:error

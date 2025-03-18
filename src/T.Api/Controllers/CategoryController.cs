@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#region
+
+using Microsoft.AspNetCore.Mvc;
 using T.Application.Base;
 using T.Application.Commands.Category;
 using T.Application.Models.Dto;
@@ -6,6 +8,8 @@ using T.Application.Queries.Category;
 using T.Domain.Attributes;
 using T.Domain.Common;
 using T.Domain.Enums.Systems;
+
+#endregion
 
 namespace T.Api.Controllers;
 
