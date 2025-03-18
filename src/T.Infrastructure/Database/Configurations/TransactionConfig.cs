@@ -1,9 +1,15 @@
-﻿using T.Domain.Extensions;
+﻿#region
+
+using T.Domain.Extensions;
+
+#endregion
 
 namespace T.Infrastructure.Database.Configurations;
 
-public class TransactionConfig : IEntityTypeConfiguration<Transaction> {
-    public void Configure(EntityTypeBuilder<Transaction> builder) {
+public class TransactionConfig : IEntityTypeConfiguration<Transaction>
+{
+    public void Configure(EntityTypeBuilder<Transaction> builder)
+    {
         builder.ToTable(nameof(Transaction));
 
         builder.HasKey(t => t.Id);

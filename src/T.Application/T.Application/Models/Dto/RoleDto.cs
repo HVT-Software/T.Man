@@ -1,27 +1,32 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using T.Domain.Entities;
+﻿#region
+
+using System.Diagnostics.CodeAnalysis;
 using T.Domain.Enums.Systems;
 
-namespace T.Application.Models.Dto {
+#endregion
 
-    public class RoleDto {
-        public Guid Id { get; set; }
-        public string? Code { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public List<EAction> Actions { get; set; } = [];
-        public DateTimeOffset CreatedAt { get; set; }
+namespace T.Application.Models.Dto;
 
-        [return: NotNullIfNotNull(nameof(entity))]
-        public static RoleDto? FromEntity(Role? entity, List<EAction>? actions) {
-            if (entity == null) return null;
+public class RoleDto
+{
+    public Guid           Id        { get; set; }
+    public string?        Code      { get; set; }
+    public string         Name      { get; set; } = string.Empty;
+    public List<EAction>  Actions   { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; }
 
-            return new RoleDto {
-                Id = entity.Id,
-                Code = entity.Code,
-                Name = entity.Name,
-                Actions = actions ?? [],
-                CreatedAt = entity.CreateAt
-            };
-        }
+    [return: NotNullIfNotNull(nameof(entity))]
+    public static RoleDto? FromEntity(Role? entity, List<EAction>? actions)
+    {
+        if (entity == null) { return null; }
+
+        return new RoleDto
+        {
+            Id        = entity.Id,
+            Code      = entity.Code,
+            Name      = entity.Name,
+            Actions   = actions ?? [],
+            CreatedAt = entity.CreateAt,
+        };
     }
 }

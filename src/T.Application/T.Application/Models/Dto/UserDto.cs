@@ -1,11 +1,15 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿#region
+
 using Newtonsoft.Json;
-using T.Domain.Entities;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+#endregion
 
 namespace T.Application.Models.Dto;
 
-public class UserDto {
+public class UserDto
+{
     public Guid Id { get; set; }
 
     [Description("Username")]
@@ -24,15 +28,17 @@ public class UserDto {
     public DateTimeOffset CreatedAt { get; set; }
 
     [return: NotNullIfNotNull(nameof(entity))]
-    public static UserDto? FromEntity(User? entity) {
-        if (entity == null) return null;
+    public static UserDto? FromEntity(User? entity)
+    {
+        if (entity == null) { return null; }
 
-        return new UserDto {
-            Id = entity.Id,
-            Username = entity.Username,
-            IsActive = entity.IsActive,
-            IsAdmin = entity.IsAdmin,
-            Role = RoleDto.FromEntity(entity.Role, []),
+        return new UserDto
+        {
+            Id        = entity.Id,
+            Username  = entity.Username,
+            IsActive  = entity.IsActive,
+            IsAdmin   = entity.IsAdmin,
+            Role      = RoleDto.FromEntity(entity.Role, []),
             CreatedAt = entity.CreatedAt,
         };
     }

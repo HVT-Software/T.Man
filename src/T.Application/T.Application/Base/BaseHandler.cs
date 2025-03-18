@@ -1,20 +1,26 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿#region
 
-namespace T.Application.Base {
+using Microsoft.AspNetCore.Hosting;
 
-    public abstract class BaseHandler(IServiceProvider serviceProvider) : BaseMediatR(serviceProvider) {
-        protected readonly string environment = serviceProvider.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
-    }
+#endregion
 
-    public abstract class BaseHandler<TRequest>(IServiceProvider serviceProvider)
-        : BaseHandler(serviceProvider), IRequestHandler<TRequest> where TRequest : IRequest {
+namespace T.Application.Base;
 
-        public abstract Task Handle(TRequest request, CancellationToken cancellationToken);
-    }
+public abstract class BaseHandler(IServiceProvider serviceProvider) : BaseMediatR(serviceProvider)
+{
+    protected readonly string environment = serviceProvider.GetRequiredService<IWebHostEnvironment>().EnvironmentName;
+}
 
-    public abstract class BaseHandler<TRequest, TResponse>(IServiceProvider serviceProvider)
-        : BaseHandler(serviceProvider), IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse> {
 
-        public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
-    }
+public abstract class BaseHandler<TRequest>(IServiceProvider serviceProvider) : BaseHandler(serviceProvider),
+    IRequestHandler<TRequest> where TRequest : IRequest
+{
+    public abstract Task Handle(TRequest request, CancellationToken cancellationToken);
+}
+
+
+public abstract class BaseHandler<TRequest, TResponse>(IServiceProvider serviceProvider) : BaseHandler(serviceProvider),
+    IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+{
+    public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
 }

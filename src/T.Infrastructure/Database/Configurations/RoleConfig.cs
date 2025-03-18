@@ -1,10 +1,15 @@
-﻿using T.Domain.Extensions;
+﻿#region
+
+using T.Domain.Extensions;
+
+#endregion
 
 namespace T.Infrastructure.Database.Configurations;
 
-internal class RoleConfig : IEntityTypeConfiguration<Role> {
-
-    public void Configure(EntityTypeBuilder<Role> builder) {
+internal class RoleConfig : IEntityTypeConfiguration<Role>
+{
+    public void Configure(EntityTypeBuilder<Role> builder)
+    {
         builder.ToTable(nameof(Role));
 
         builder.HasKey(o => o.Id);
@@ -18,7 +23,13 @@ internal class RoleConfig : IEntityTypeConfiguration<Role> {
 
         // index
         builder.HasIndex(o => o.MerchantId);
-        builder.HasIndex(o => new { o.MerchantId, o.Code }).IsUnique();
+        builder.HasIndex(
+                o => new
+                {
+                    o.MerchantId,
+                    o.Code,
+                })
+            .IsUnique();
 
         // fk
         builder.HasMany(o => o.Users).WithOne(o => o.Role).HasForeignKey(o => o.RoleId);

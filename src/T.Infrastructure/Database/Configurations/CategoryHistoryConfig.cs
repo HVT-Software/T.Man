@@ -1,9 +1,15 @@
-﻿using T.Domain.Extensions;
+﻿#region
+
+using T.Domain.Extensions;
+
+#endregion
 
 namespace T.Infrastructure.Database.Configurations;
 
-public class CategoryHistoryConfig : IEntityTypeConfiguration<CategoryHistory> {
-    public void Configure(EntityTypeBuilder<CategoryHistory> builder) {
+public class CategoryHistoryConfig : IEntityTypeConfiguration<CategoryHistory>
+{
+    public void Configure(EntityTypeBuilder<CategoryHistory> builder)
+    {
         builder.ToTable(nameof(CategoryHistory));
 
         builder.HasKey(o => o.Id);

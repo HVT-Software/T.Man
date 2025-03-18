@@ -1,32 +1,64 @@
+#region
+
 using T.Domain.Attributes;
 using T.Domain.Models;
 
+#endregion
+
 namespace T.Domain.Enums.Systems;
 
-public enum EAction {
-    [Action(EModule.Dashboard, "Xem", PermissionKey.Dashboard_View)]
-    Dashboard_View = 10001,
+public enum EAction
+{
+    [Action(EModule.Dashboard, "Xem", PermissionKey.DashboardView)]
+    DashboardView = 10001,
 
-    [Action(EModule.MerchantInformation, "Xem", PermissionKey.Merchant_View)]
-    Merchant_View = 140201,
-    [Action(EModule.MerchantInformation, "Sửa", PermissionKey.Merchant_Edit)]
-    Merchant_Edit = 140202,
+#region Setting
 
-    [Action(EModule.User, "Xem", PermissionKey.User_View)]
-    User_View = 140301,
-    [Action(EModule.User, "Thêm/Sửa", PermissionKey.User_Edit)]
-    User_Edit = 140302,
-    [Action(EModule.User, "Xoá", PermissionKey.User_Delete)]
-    User_Delete = 140303,
-    [Action(EModule.User, "Đổi mật khẩu", PermissionKey.User_ChangePassword)]
-    User_ChangePassword = 140306,
-    [Action(EModule.User, "Đổi mã pin", PermissionKey.User_ChangePin)]
-    User_ChangePin = 140307,
+    // Merchant
+    [Action(EModule.MerchantInformation, "Xem", PermissionKey.MerchantView)]
+    MerchantView = 110101,
 
-    [Action(EModule.Role, "Xem", PermissionKey.Role_View)]
-    Role_View = 140401,
-    [Action(EModule.Role, "Thêm/Sửa", PermissionKey.Role_Edit)]
-    Role_Edit = 140402,
-    [Action(EModule.Role, "Xoá", PermissionKey.Role_Delete)]
-    Role_Delete = 140403,
+    [Action(EModule.MerchantInformation, "Sửa", PermissionKey.MerchantEdit)]
+    MerchantEdit = 110102,
+
+    // User
+    [Action(EModule.User, "Xem", PermissionKey.UserView)]
+    UserView = 110201,
+
+    [Action(EModule.User, "Thêm/Sửa", PermissionKey.UserEdit)]
+    UserEdit = 110202,
+
+    [Action(EModule.User, "Xoá", PermissionKey.UserDelete)]
+    UserDelete = 110203,
+
+    [Action(EModule.User, "Đổi mật khẩu", PermissionKey.UserChangePassword)]
+    UserChangePassword = 110206,
+
+    [Action(EModule.User, "Đổi mã pin", PermissionKey.UserChangePin)]
+    UserChangePin = 110207,
+
+    // Role
+    [Action(EModule.Role, "Xem", PermissionKey.RoleView)]
+    RoleView = 110301,
+
+    [Action(EModule.Role, "Thêm/Sửa", PermissionKey.RoleEdit)]
+    RoleEdit = 110302,
+
+    [Action(EModule.Role, "Xoá", PermissionKey.RoleDelete)]
+    RoleDelete = 110303,
+
+#endregion
+
+#region Monney Tracking
+
+    [Action(EModule.Category, "Xem", PermissionKey.CategoryView)]
+    CategoryView = 120101,
+
+    [Action(EModule.Category, "Thêm/Sửa", PermissionKey.CategoryEdit)]
+    CategoryEdit = 120102,
+
+    [Action(EModule.Category, "Xoá", PermissionKey.CategoryDelete)]
+    CategoryDelete = 120103,
+
+#endregion
 }

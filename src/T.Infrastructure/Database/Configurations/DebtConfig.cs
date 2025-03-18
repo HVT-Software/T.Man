@@ -1,9 +1,15 @@
-﻿using T.Domain.Extensions;
+﻿#region
+
+using T.Domain.Extensions;
+
+#endregion
 
 namespace T.Infrastructure.Database.Configurations;
 
-public class DebtConfig : IEntityTypeConfiguration<Debt> {
-    public void Configure(EntityTypeBuilder<Debt> builder) {
+public class DebtConfig : IEntityTypeConfiguration<Debt>
+{
+    public void Configure(EntityTypeBuilder<Debt> builder)
+    {
         builder.ToTable(nameof(Debt));
 
         builder.HasKey(x => x.Id);
