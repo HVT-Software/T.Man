@@ -35,6 +35,7 @@ dotnet_style_prefer_compound_assignment = true:error
 dotnet_style_readonly_field = true:error
 
 # https://www.jetbrains.com/help/resharper/EditorConfig_CSHARP_BlankLinesPageScheme.html
+resharper_csharp_blank_lines_around_region = 1
 resharper_csharp_blank_lines_inside_region = 1
 resharper_csharp_blank_lines_before_single_line_comment = 1
 resharper_csharp_keep_blank_lines_in_declarations = 1
