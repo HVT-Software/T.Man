@@ -29,9 +29,8 @@ public class TransactionController(IServiceProvider serviceProvider) : BaseContr
 
     [HttpPut("{id}")]
     [HvtAction(EAction.TransactionEdit)]
-    public async Task<Result> Update([FromRoute] Guid id, [FromBody] UpdateTransactionCommand command) {
-        command.Id = id;
-        TransactionDto result = await mediator.Send(command);
+    public async Task<Result> Update([FromRoute] Guid id, [FromBody] TransactionDto model) {
+        TransactionDto result = await mediator.Send(new UpdateTransactionCommand { Id = id, Model = model });
         return Result.Ok(result);
     }
 

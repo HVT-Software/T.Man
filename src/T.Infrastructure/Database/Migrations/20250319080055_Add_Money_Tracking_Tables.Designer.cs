@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using T.Infrastructure.Database;
@@ -11,9 +12,11 @@ using T.Infrastructure.Database;
 namespace T.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(HvtContext))]
-    partial class HvtContextModelSnapshot : ModelSnapshot
+    [Migration("20250319080055_Add_Money_Tracking_Tables")]
+    partial class Add_Money_Tracking_Tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
