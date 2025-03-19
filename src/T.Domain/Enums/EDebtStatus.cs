@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Enums;
 
-public enum EDebtStatus
-{
+public enum EDebtStatus {
     Pending,
     Returned,
     Overdue,

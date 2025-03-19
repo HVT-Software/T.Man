@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Enums;
 
-public enum ENotificationType
-{
+public enum ENotificationType {
     BudgetExceeded,
     LoanReminder,
     DebtDue,

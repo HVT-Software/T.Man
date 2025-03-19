@@ -6,8 +6,7 @@ using T.Domain.Common.Interfaces;
 
 namespace T.Domain.Entities;
 
-public class User : IEntity
-{
+public class User : IEntity {
     public Guid? RoleId     { get; set; }
     public Guid  MerchantId { get; set; }
 

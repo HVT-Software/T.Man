@@ -1,7 +1,6 @@
 namespace T.Domain.Models;
 
-public static class PermissionKey
-{
+public static class PermissionKey {
     private const string DefaultView    = "r";
     private const string DefaultEdit    = "cu";
     private const string DefaultDelete  = "d";

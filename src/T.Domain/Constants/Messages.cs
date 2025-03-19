@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Constants;
 
-public static class Messages
-{
+public static class Messages {
     public const string Success         = "Thành công";
     public const string Error           = "Lỗi hệ thống";
     public const string BadRequest      = "Yêu cầu không hợp lệ";

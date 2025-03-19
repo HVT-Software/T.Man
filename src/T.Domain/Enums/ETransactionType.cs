@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Enums;
 
-public enum ETransactionType
-{
+public enum ETransactionType {
     Income,
     Expense,
 }

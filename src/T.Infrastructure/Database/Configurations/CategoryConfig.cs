@@ -6,10 +6,8 @@ using T.Domain.Extensions;
 
 namespace T.Infrastructure.Database.Configurations;
 
-public class CategoryConfig : IEntityTypeConfiguration<Category>
-{
-    public void Configure(EntityTypeBuilder<Category> builder)
-    {
+public class CategoryConfig : IEntityTypeConfiguration<Category> {
+    public void Configure(EntityTypeBuilder<Category> builder) {
         builder.ToTable(nameof(Category));
 
         builder.HasKey(o => o.Id);

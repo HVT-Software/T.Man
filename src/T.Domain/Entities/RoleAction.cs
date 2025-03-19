@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Entities;
 
-public class RoleAction
-{
+public class RoleAction {
     public         Guid   Id     { get; set; }
     public         Guid   RoleId { get; set; }
     public         string Key    { get; set; } = string.Empty;

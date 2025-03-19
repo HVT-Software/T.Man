@@ -18,15 +18,6 @@ charset = utf-8
 indent_size = 4
 indent_style = space
 
-# New line preferences
-csharp_new_line_before_catch = false # No newline before catch
-csharp_new_line_before_else = false # No newline before else
-csharp_new_line_before_finally = false # No newline before finally
-csharp_new_line_before_members_in_anonymous_types = true # Newline between members in anonymous types
-csharp_new_line_before_members_in_object_initializers = true # Newline between members in object initializers
-csharp_new_line_before_open_brace = none # Braces on same line (K&R style)
-csharp_new_line_between_query_expression_clauses = true # Newline between query clauses
-
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/
 csharp_prefer_braces = true:error
 csharp_prefer_simple_default_expression = true:error
@@ -77,16 +68,16 @@ resharper_csharp_blank_lines_before_case = 0
 resharper_csharp_blank_lines_after_case = 0
 
 # https://www.jetbrains.com/help/resharper/EditorConfig_CSHARP_BracesPageSchema.html
-resharper_csharp_type_declaration_braces = next_line
+resharper_csharp_type_declaration_braces = end_of_line
 resharper_csharp_indent_inside_namespace = true
-resharper_csharp_invocable_declaration_braces = next_line
-resharper_csharp_anonymous_method_declaration_braces = next_line
+resharper_csharp_invocable_declaration_braces = end_of_line
+resharper_csharp_anonymous_method_declaration_braces = end_of_line
 resharper_csharp_accessor_owner_declaration_braces = end_of_line
 resharper_csharp_accessor_declaration_braces = end_of_line
-resharper_csharp_case_block_braces = next_line
-resharper_csharp_initializer_braces = next_line
+resharper_csharp_case_block_braces = end_of_line
+resharper_csharp_initializer_braces = end_of_line
 resharper_csharp_use_continuous_indent_inside_initializer_braces = true
-resharper_csharp_other_braces = next_line
+resharper_csharp_other_braces = end_of_line
 resharper_csharp_allow_comment_after_lbrace = true
 resharper_csharp_empty_block_style = together_same_line
 

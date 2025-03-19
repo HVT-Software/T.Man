@@ -7,8 +7,7 @@ using T.Domain.Models;
 
 namespace T.Domain.Enums.Systems;
 
-public enum EAction
-{
+public enum EAction {
     [Action(EModule.Dashboard, "Xem", PermissionKey.DashboardView)]
     DashboardView = 10001,
 

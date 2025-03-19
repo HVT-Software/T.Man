@@ -7,8 +7,7 @@ using T.Domain.Common;
 
 namespace T.Infrastructure.Database;
 
-public class HvtContext : DbContext
-{
+public class HvtContext : DbContext {
     public HvtContext() { }
 
     public HvtContext(string connectionString)
@@ -26,22 +25,18 @@ public class HvtContext : DbContext
 
     public DbSet<User> Users { get => Set<User>(); }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        if (!optionsBuilder.IsConfigured) {
             optionsBuilder.UseNpgsql("User ID=hota;Password=123456789x@X;Server=db.hvantoan.io.vn;Port=5432;Database=hota;Pooling=true;");
         }
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder.HasDefaultSchema(DrSchema.Default);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 
-    private static DbContextOptions GetOptions(string connectionString)
-    {
+    private static DbContextOptions GetOptions(string connectionString) {
         return new DbContextOptionsBuilder().UseNpgsql(connectionString).Options;
     }
 }

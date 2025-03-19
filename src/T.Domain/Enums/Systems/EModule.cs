@@ -6,8 +6,7 @@ using System.ComponentModel;
 
 namespace T.Domain.Enums.Systems;
 
-public enum EModule
-{
+public enum EModule {
     [Description("Tổng quan")]
     Dashboard = 10000,
 

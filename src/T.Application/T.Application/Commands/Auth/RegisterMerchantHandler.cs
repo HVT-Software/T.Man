@@ -12,10 +12,8 @@ using T.Domain.Helpers;
 
 namespace T.Application.Commands.Auth;
 
-internal class RegisterMerchantCommandValidator : AbstractValidator<RegisterMerchantCommand>
-{
-    public RegisterMerchantCommandValidator()
-    {
+internal class RegisterMerchantCommandValidator : AbstractValidator<RegisterMerchantCommand> {
+    public RegisterMerchantCommandValidator() {
         RuleFor(x => x.Provider).NotEmpty(o => o.Provider).MinMax(o => o.Provider, 5, 50);
 
         RuleFor(x => x.Username).NotEmpty(o => o.Username).MinMax(o => o.Username, 5, 255);
@@ -25,8 +23,7 @@ internal class RegisterMerchantCommandValidator : AbstractValidator<RegisterMerc
 }
 
 
-public class RegisterMerchantCommand : IRequest<LoginResult>
-{
+public class RegisterMerchantCommand : IRequest<LoginResult> {
     public          string  Provider { get; set; } = string.Empty;
     public required string  Username { get; set; }
     public          string? Password { get; set; }
@@ -36,15 +33,13 @@ public class RegisterMerchantCommand : IRequest<LoginResult>
 }
 
 
-public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHandler<RegisterMerchantCommand, LoginResult>(serviceProvider)
-{
+public class RegisterMerchantHandler(IServiceProvider serviceProvider)
+    : BaseHandler<RegisterMerchantCommand, LoginResult>(serviceProvider) {
     private readonly IMediator mediator = serviceProvider.GetRequiredService<IMediator>();
 
-    public override async Task<LoginResult> Handle(RegisterMerchantCommand request, CancellationToken cancellationToken)
-    {
+    public override async Task<LoginResult> Handle(RegisterMerchantCommand request, CancellationToken cancellationToken) {
         User? user = await db.Users.FirstOrDefaultAsync(o => o.Username == request.Username, cancellationToken);
-        if (user == null)
-        {
+        if (user == null) {
             await using IDbContextTransaction transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
             Merchant merchant = await AddMerchant(request, cancellationToken);
@@ -55,8 +50,7 @@ public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHan
         }
 
         return await mediator.Send(
-            new LoginQuery
-            {
+            new LoginQuery {
                 Username    = user.Username,
                 HasPassword = user.Password,
             },
@@ -66,10 +60,8 @@ public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHan
     private async Task<User> AddUserAdmin(
         RegisterMerchantCommand request,
         CancellationToken cancellationToken,
-        Merchant merchant)
-    {
-        User user = new()
-        {
+        Merchant merchant) {
+        User user = new() {
             Id         = Guid.NewGuid(),
             Username   = request.Username,
             Password   = PasswordHelper.Hash(request.Password ?? StringExtension.GeneratePassword()),
@@ -87,10 +79,8 @@ public class RegisterMerchantHandler(IServiceProvider serviceProvider) : BaseHan
         return user;
     }
 
-    private async Task<Merchant> AddMerchant(RegisterMerchantCommand request, CancellationToken cancellationToken)
-    {
-        Merchant merchant = new()
-        {
+    private async Task<Merchant> AddMerchant(RegisterMerchantCommand request, CancellationToken cancellationToken) {
+        Merchant merchant = new() {
             Id         = Guid.Empty,
             Name       = request.Name ?? "",
             Code       = request.Username,

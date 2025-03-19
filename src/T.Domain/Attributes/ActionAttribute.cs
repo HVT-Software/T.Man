@@ -10,8 +10,7 @@ namespace T.Domain.Attributes;
 public class ActionAttribute(
     EModule parent,
     string description,
-    string permissionKey) : Attribute
-{
+    string permissionKey) : Attribute {
     public EModule Module      { get; set; } = parent;
     public string  Description { get; set; } = description;
     public string  Key         { get; set; } = permissionKey;

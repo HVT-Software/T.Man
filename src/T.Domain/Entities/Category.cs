@@ -6,8 +6,7 @@ using T.Domain.Common.Interfaces;
 
 namespace T.Domain.Entities;
 
-public class Category : IEntity
-{
+public class Category : IEntity {
     public         Guid           MerchantId  { get; set; }
     public         string         Name        { get; set; } = string.Empty;
     public         decimal        Budget      { get; set; }

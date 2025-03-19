@@ -13,10 +13,8 @@ namespace T.Application.Commands.Category;
 public class DeleteCategoryCommand : SingleRequest { }
 
 
-public class DeleteCategoryHandler(IServiceProvider serviceProvider) : BaseHandler<DeleteCategoryCommand>(serviceProvider)
-{
-    public override async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
-    {
+public class DeleteCategoryHandler(IServiceProvider serviceProvider) : BaseHandler<DeleteCategoryCommand>(serviceProvider) {
+    public override async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken) {
         Domain.Entities.Category? entity = await db.Categories.FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
         AppEx.ThrowIfNull(entity, Messages.Category_NotFound);
 

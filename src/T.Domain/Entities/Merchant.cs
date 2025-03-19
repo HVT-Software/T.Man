@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Entities;
 
-public class Merchant
-{
+public class Merchant {
     public Guid   Id         { get; set; }
     public string Code       { get; set; } = null!;
     public string Name       { get; set; } = null!;

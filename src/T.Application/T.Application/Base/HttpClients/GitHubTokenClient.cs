@@ -8,14 +8,12 @@ using System.Text.Json;
 
 namespace T.Application.Base.HttpClients;
 
-public class GitHubTokenClient : IDisposable
-{
+public class GitHubTokenClient : IDisposable {
     private readonly string     clientId;
     private readonly string     clientSecret;
     private readonly HttpClient httpClient;
 
-    public GitHubTokenClient(string clientId, string clientSecret)
-    {
+    public GitHubTokenClient(string clientId, string clientSecret) {
         this.clientId          = clientId;
         this.clientSecret      = clientSecret;
         httpClient             = new HttpClient();
@@ -26,19 +24,16 @@ public class GitHubTokenClient : IDisposable
     }
 
     // Giải phóng tài nguyên
-    public void Dispose()
-    {
+    public void Dispose() {
         httpClient.Dispose();
     }
 
-    public async Task<bool> VerifyAccessTokenAsync(string accessToken)
-    {
+    public async Task<bool> VerifyAccessTokenAsync(string accessToken) {
         // Tạo URL với Client ID
         var url = $"applications/{clientId}/token";
 
         // Tạo nội dung JSON cho body
-        var requestBody = new
-        {
+        var requestBody = new {
             access_token = accessToken,
         };
         string        jsonContent = JsonSerializer.Serialize(requestBody);

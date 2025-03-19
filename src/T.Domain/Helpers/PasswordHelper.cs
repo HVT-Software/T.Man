@@ -7,25 +7,21 @@ using System.Security.Cryptography;
 
 namespace T.Domain.Helpers;
 
-public static class PasswordHelper
-{
+public static class PasswordHelper {
     private const int SaltSize = 32;
 
-    public static string Hash(string password)
-    {
+    public static string Hash(string password) {
         byte[] salt = GenerateSalt();
         return HashWithSalt(password, salt);
     }
 
-    public static bool Verify(string password, string passwordStored)
-    {
+    public static bool Verify(string password, string passwordStored) {
         byte[] salt           = GetSaltFromPasswordStored(passwordStored);
         string passwordHashed = HashWithSalt(password, salt);
         return passwordHashed.Equals(passwordStored);
     }
 
-    private static string HashWithSalt(string password, byte[] salt)
-    {
+    private static string HashWithSalt(string password, byte[] salt) {
         byte[] pw = KeyDerivation.Pbkdf2(
             password,
             salt,
@@ -36,16 +32,14 @@ public static class PasswordHelper
         return Convert.ToBase64String(stored);
     }
 
-    private static byte[] GenerateSalt()
-    {
+    private static byte[] GenerateSalt() {
         var       salt = new byte[SaltSize];
         using var rng  = RandomNumberGenerator.Create();
         rng.GetBytes(salt);
         return salt;
     }
 
-    private static byte[] GetSaltFromPasswordStored(string passwordStored)
-    {
+    private static byte[] GetSaltFromPasswordStored(string passwordStored) {
         byte[] stored = Convert.FromBase64String(passwordStored);
         var    salt   = new byte[SaltSize];
         Array.Copy(
@@ -57,8 +51,7 @@ public static class PasswordHelper
         return salt;
     }
 
-    private static byte[] MergeSaltAndPassword(byte[] salt, byte[] pw)
-    {
+    private static byte[] MergeSaltAndPassword(byte[] salt, byte[] pw) {
         var store = new byte[salt.Length + pw.Length];
         salt.CopyTo(store, 0);
         pw.CopyTo(store, salt.Length);

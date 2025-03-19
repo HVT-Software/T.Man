@@ -7,8 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace T.Domain.Common;
 
-public abstract class BaseAudit
-{
+public abstract class BaseAudit {
     public bool  IsDeleted { get; set; }
     public Guid  CreateBy  { get; set; }
     public Guid? UpdateBy  { get; set; }
@@ -20,10 +19,8 @@ public abstract class BaseAudit
 }
 
 
-public static class AuditConfig
-{
-    public static void AddAuditConfig<T>(this EntityTypeBuilder<T> builder) where T : BaseAudit
-    {
+public static class AuditConfig {
+    public static void AddAuditConfig<T>(this EntityTypeBuilder<T> builder) where T : BaseAudit {
         builder.Property(o => o.IsDeleted).HasDefaultValue(false);
 
         builder.Property(o => o.CreateAt)

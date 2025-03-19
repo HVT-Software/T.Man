@@ -6,8 +6,7 @@ using MediatR;
 
 namespace T.Domain.Common;
 
-public abstract class BaseRequest
-{
+public abstract class BaseRequest {
     public Guid UserId     { get; set; }
     public Guid MerchantId { get; set; }
 }
@@ -23,8 +22,7 @@ public abstract class Request<TResponse>
         IRequest<TResponse> { }
 
 
-public abstract class BaseSingleRequest : BaseRequest
-{
+public abstract class BaseSingleRequest : BaseRequest {
     public Guid Id { get; set; }
 }
 
@@ -39,8 +37,7 @@ public class SingleRequest<TResponse>
         IRequest<TResponse> { }
 
 
-public abstract class BasePaginatedRequest : BaseRequest
-{
+public abstract class BasePaginatedRequest : BaseRequest {
     public int     PageIndex  { get; set; }
     public int     PageSize   { get; set; }
     public bool    IsCount    { get; set; }
@@ -61,8 +58,7 @@ public class PaginatedRequest<TResponse>
         IRequest<TResponse> { }
 
 
-public abstract class BaseUpdateRequest<T> : BaseSingleRequest where T : notnull
-{
+public abstract class BaseUpdateRequest<T> : BaseSingleRequest where T : notnull {
     public required T Model { get; set; }
 }
 
@@ -77,8 +73,7 @@ public class UpdateRequest<T, TResponse>
         IRequest<TResponse> where T : notnull { }
 
 
-public record WrapperData<T>
-{
+public record WrapperData<T> {
     public int      TotalCount { get; set; }
     public List<T>? Items      { get; set; }
 }

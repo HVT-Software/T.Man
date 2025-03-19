@@ -1,9 +1,7 @@
 ﻿namespace T.Infrastructure.Database.Configurations;
 
-internal class UserConfig : IEntityTypeConfiguration<User>
-{
-    public void Configure(EntityTypeBuilder<User> builder)
-    {
+internal class UserConfig : IEntityTypeConfiguration<User> {
+    public void Configure(EntityTypeBuilder<User> builder) {
         builder.ToTable(nameof(User));
 
         builder.HasKey(o => o.Id);

@@ -7,8 +7,7 @@ using T.Infrastructure.Database;
 
 namespace T.Application.Base;
 
-public abstract class BaseMediatR(IServiceProvider serviceProvider)
-{
+public abstract class BaseMediatR(IServiceProvider serviceProvider) {
     protected readonly IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
     protected readonly HvtContext     db            = serviceProvider.GetRequiredService<HvtContext>();
 }

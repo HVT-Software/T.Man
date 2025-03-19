@@ -7,8 +7,7 @@ using T.Domain.Models;
 
 namespace T.Domain.Interfaces;
 
-public interface IRedisService
-{
+public interface IRedisService {
     IDatabase GetDatabase();
 
     Task<bool> KeyExistsAsync(string key);

@@ -8,8 +8,7 @@ using T.Domain.Extensions;
 
 namespace T.Application.Models.SystemDto;
 
-public class ActionDto
-{
+public class ActionDto {
     public EModule       Module      { get; set; }
     public EAction       Action      { get; set; }
     public string        Name        { get; set; } = string.Empty;
@@ -22,12 +21,10 @@ public class ActionDto
         EAction action,
         List<EAction> check,
         List<EAction> uncheck,
-        string? desctiption = null)
-    {
+        string? desctiption = null) {
         ActionAttribute? attr = action.GetValue<ActionAttribute>();
         ArgumentNullException.ThrowIfNull(attr);
-        return new ActionDto
-        {
+        return new ActionDto {
             Module      = attr.Module,
             Action      = action,
             Name        = attr.Description,

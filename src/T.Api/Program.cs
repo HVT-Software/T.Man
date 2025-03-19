@@ -9,10 +9,8 @@ using T.Infrastructure;
 
 namespace T.Api;
 
-public class Program
-{
-    public static void Main(string[] args)
-    {
+public class Program {
+    public static void Main(string[] args) {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddHvtContext(builder.Configuration);

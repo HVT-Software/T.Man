@@ -7,8 +7,7 @@ using T.Domain.Constants;
 
 namespace T.Domain.Common;
 
-public class Result
-{
+public class Result {
     [JsonProperty("success")]
     public bool Success { get; set; }
 
@@ -20,49 +19,39 @@ public class Result
 
     public IDictionary<string, string[]>? Errors { get; set; }
 
-    public static Result Ok()
-    {
-        return new Result
-        {
+    public static Result Ok() {
+        return new Result {
             Success = true,
         };
     }
 
-    public static Result Ok<T>(T? data)
-    {
-        return new Result
-        {
+    public static Result Ok<T>(T? data) {
+        return new Result {
             Success = true,
             Data    = data,
         };
     }
 
-    public static Result Fail(string? message = null)
-    {
-        return new Result
-        {
+    public static Result Fail(string? message = null) {
+        return new Result {
             Message = message,
         };
     }
 
-    public static Result Fail(IDictionary<string, string[]>? errors = null)
-    {
-        return new Result
-        {
+    public static Result Fail(IDictionary<string, string[]>? errors = null) {
+        return new Result {
             Message = Messages.Validation_Fail,
             Errors  = errors,
         };
     }
 
-    public override string ToString()
-    {
+    public override string ToString() {
         return JsonConvert.SerializeObject(this);
     }
 }
 
 
-public class FileResult
-{
+public class FileResult {
     public string FileName  { get; set; } = string.Empty;
     public byte[] ByteArray { get; set; } = [];
 }

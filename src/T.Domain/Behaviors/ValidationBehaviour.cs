@@ -9,13 +9,11 @@ using MediatR;
 namespace T.Domain.Behaviors;
 
 public class ValidationBehaviour
-    <TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
-{
+    <TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull {
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         if (!validators.Any()) { return await next(); }
 
         ValidationContext<TRequest> context = new(request);

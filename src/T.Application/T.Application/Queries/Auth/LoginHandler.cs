@@ -16,16 +16,14 @@ using T.Domain.Interfaces;
 
 namespace T.Application.Queries.Auth;
 
-public class LoginQuery : IRequest<LoginResult>
-{
+public class LoginQuery : IRequest<LoginResult> {
     public string Username    { get; set; } = string.Empty;
     public string Password    { get; set; } = string.Empty;
     public string HasPassword { get; set; } = string.Empty;
 }
 
 
-public class LoginResult
-{
+public class LoginResult {
     public string  RefreshToken { get; set; } = string.Empty;
     public string  Token        { get; set; } = string.Empty;
     public string  MerchantCode { get; set; } = string.Empty;
@@ -39,12 +37,10 @@ public class LoginResult
 }
 
 
-public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQuery, LoginResult>(serviceProvider)
-{
+public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQuery, LoginResult>(serviceProvider) {
     private readonly IRedisService redisService = serviceProvider.GetRequiredService<IRedisService>();
 
-    public override async Task<LoginResult> Handle(LoginQuery request, CancellationToken cancellationToken)
-    {
+    public override async Task<LoginResult> Handle(LoginQuery request, CancellationToken cancellationToken) {
         request.Username = request.Username.ToLower().Trim();
 
         User? user = await db.Users.Include(o => o.Role)
@@ -57,8 +53,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
             Messages.User_IncorrectPassword);
 
         List<string> actions = [];
-        if (!user.IsAdmin)
-        {
+        if (!user.IsAdmin) {
             actions = await db.RoleActions.AsNoTracking()
                 .Where(o => o.RoleId == user.RoleId)
                 .OrderBy(o => o.Key)
@@ -70,8 +65,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
         user.LastSession = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         await db.SaveChangesAsync(cancellationToken);
 
-        List<Claim> claims = new()
-        {
+        List<Claim> claims = new() {
             new Claim(TokenKey.TokenMerchantId, user.Merchant!.Id.ToString()),
             new Claim(TokenKey.TokenUserId, user.Id.ToString()),
             new Claim(TokenKey.TokenSession, user.LastSession.ToString()),
@@ -88,8 +82,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
         string actionKey = RedisKey.GetSessionActionKey(environment, user.Merchant!.Id, user.Id);
         await redisService.SetValueAsync(actionKey, actions, ttlKey);
 
-        return new LoginResult
-        {
+        return new LoginResult {
             RefreshToken = GenerateRefreshToken(claims),
             Token        = GenerateToken(claims, expiredAt),
             ExpiredTime  = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds(),
@@ -103,20 +96,17 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
         };
     }
 
-    private DateTime GetTokenExpiredAt()
-    {
+    private DateTime GetTokenExpiredAt() {
         long tokenExpiredAfterDays = configuration.GetSection("TokenExpire").Get<long?>() ?? 1;
         return DateTimeOffset.Now.AddDays(tokenExpiredAfterDays).Date;
     }
 
-    private DateTime GetRefreshTokenExpiredAt()
-    {
+    private DateTime GetRefreshTokenExpiredAt() {
         int tokenExpiredAfterDays = configuration.GetSection("RefreshTokenExpire").Get<int?>() ?? 1;
         return DateTimeOffset.Now.AddMonths(tokenExpiredAfterDays).Date;
     }
 
-    private string GenerateRefreshToken(List<Claim> claims)
-    {
+    private string GenerateRefreshToken(List<Claim> claims) {
         List<Claim> claimsForRefreshToken = new();
         claimsForRefreshToken.AddRange(claims);
         claimsForRefreshToken.Add(new Claim(TokenKey.TokenRefreshToken, "true"));
@@ -124,8 +114,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
         return GenerateToken(claimsForRefreshToken, GetRefreshTokenExpiredAt());
     }
 
-    private string GenerateToken(List<Claim> claims, DateTime expiredAt)
-    {
+    private string GenerateToken(List<Claim> claims, DateTime expiredAt) {
         SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(configuration["JwtSecret"]!));
         SigningCredentials   credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 

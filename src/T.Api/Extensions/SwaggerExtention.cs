@@ -7,24 +7,19 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace T.Api.Extensions;
 
-public static class SwaggerExtension
-{
-    public static IServiceCollection AddSwag(this IServiceCollection services)
-    {
+public static class SwaggerExtension {
+    public static IServiceCollection AddSwag(this IServiceCollection services) {
         services.AddSwaggerGen(
-            c =>
-            {
+            c => {
                 c.SwaggerDoc(
                     "v1",
-                    new OpenApiInfo
-                    {
+                    new OpenApiInfo {
                         Title   = "Doran API v1",
                         Version = "v1",
                     });
                 c.AddSecurityDefinition(
                     "Bearer",
-                    new OpenApiSecurityScheme
-                    {
+                    new OpenApiSecurityScheme {
                         Description = @"API KEY",
                         Name        = "Authorization",
                         In          = ParameterLocation.Header,
@@ -32,13 +27,10 @@ public static class SwaggerExtension
                         Scheme      = "Bearer",
                     });
                 c.AddSecurityRequirement(
-                    new OpenApiSecurityRequirement
-                    {
+                    new OpenApiSecurityRequirement {
                         {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
+                            new OpenApiSecurityScheme {
+                                Reference = new OpenApiReference {
                                     Type = ReferenceType.SecurityScheme,
                                     Id   = "Bearer",
                                 },
@@ -53,12 +45,10 @@ public static class SwaggerExtension
         return services;
     }
 
-    public static IApplicationBuilder UseSwag(this IApplicationBuilder app)
-    {
+    public static IApplicationBuilder UseSwag(this IApplicationBuilder app) {
         app.UseSwagger()
             .UseSwaggerUI(
-                options =>
-                {
+                options => {
                     options.SwaggerEndpoint("/swagger/v1/swagger.json", "Doran API v1");
                     options.DocExpansion(DocExpansion.None);
                 });

@@ -7,14 +7,12 @@ using System.Linq.Expressions;
 
 namespace T.Domain.Extensions;
 
-public static class LinqExtension
-{
+public static class LinqExtension {
     public static IQueryable<TSource> WhereIf<TSource>(
         this IQueryable<TSource> source,
         bool when,
         Expression<Func<TSource, bool>> predicateTrue,
-        Expression<Func<TSource, bool>>? predicateFalse = null)
-    {
+        Expression<Func<TSource, bool>>? predicateFalse = null) {
         if (when) { return source.Where(predicateTrue); }
 
         return predicateFalse != null ? source.Where(predicateFalse) : source;
@@ -23,8 +21,7 @@ public static class LinqExtension
     public static IQueryable<TSource> WhereIf<TSource>(
         this IQueryable<TSource> source,
         Expression<Func<TSource, bool>> when,
-        Expression<Func<TSource, bool>> predicateTrue)
-    {
+        Expression<Func<TSource, bool>> predicateTrue) {
         Expression<Func<TSource, bool>> expression =
             Expression.Lambda<Func<TSource, bool>>(Expression.Or(Expression.And(when, predicateTrue), Expression.Not(when)));
 
@@ -35,8 +32,7 @@ public static class LinqExtension
         this IQueryable<TSource> source,
         bool when,
         Func<IQueryable<TSource>, IQueryable<TSource>> funcTrue,
-        Func<IQueryable<TSource>, IQueryable<TSource>>? funcFalse = null)
-    {
+        Func<IQueryable<TSource>, IQueryable<TSource>>? funcFalse = null) {
         if (when) { return funcTrue.Invoke(source); }
 
         return funcFalse != null ? funcFalse.Invoke(source) : source;
@@ -46,8 +42,7 @@ public static class LinqExtension
         this IQueryable<TSource> source,
         bool when,
         Expression<Func<TSource, TResult>>? selector = null,
-        CancellationToken cancellationToken = default)
-    {
+        CancellationToken cancellationToken = default) {
         if (!when) { return 0; }
 
         if (selector != null) { return await source.Select(selector).CountAsync(cancellationToken); }
@@ -58,8 +53,7 @@ public static class LinqExtension
     public static IQueryable<TSource> Paging<TSource>(
         this IQueryable<TSource> source,
         int skip,
-        int take)
-    {
+        int take) {
         return source.Paging(true, skip, take);
     }
 
@@ -67,8 +61,7 @@ public static class LinqExtension
         this IQueryable<TSource> source,
         bool when,
         int skip,
-        int take)
-    {
+        int take) {
         return when ? source.Skip(skip).Take(take) : source;
     }
 }

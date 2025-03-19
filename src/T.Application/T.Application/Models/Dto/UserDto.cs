@@ -8,8 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace T.Application.Models.Dto;
 
-public class UserDto
-{
+public class UserDto {
     public Guid Id { get; set; }
 
     [Description("Username")]
@@ -28,12 +27,10 @@ public class UserDto
     public DateTimeOffset CreatedAt { get; set; }
 
     [return: NotNullIfNotNull(nameof(entity))]
-    public static UserDto? FromEntity(User? entity)
-    {
+    public static UserDto? FromEntity(User? entity) {
         if (entity == null) { return null; }
 
-        return new UserDto
-        {
+        return new UserDto {
             Id        = entity.Id,
             Username  = entity.Username,
             IsActive  = entity.IsActive,

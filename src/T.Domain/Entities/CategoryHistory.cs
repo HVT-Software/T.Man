@@ -1,7 +1,6 @@
 ﻿namespace T.Domain.Entities;
 
-public class CategoryHistory
-{
+public class CategoryHistory {
     public Guid           Id           { get; set; }
     public Guid           CategoryId   { get; set; }
     public DateTimeOffset Month        { get; set; }

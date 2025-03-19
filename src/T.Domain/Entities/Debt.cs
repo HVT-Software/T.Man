@@ -6,8 +6,7 @@ using T.Domain.Enums;
 
 namespace T.Domain.Entities;
 
-public class Debt
-{
+public class Debt {
     public Guid           Id                 { get; set; }
     public Guid           UserId             { get; set; }
     public string         BorrowerName       { get; set; } = string.Empty;

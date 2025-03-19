@@ -11,25 +11,21 @@ namespace T.Application.Queries.Auth;
 public class GetModuleQuery : IRequest<ModuleData> { }
 
 
-public class ModuleData
-{
+public class ModuleData {
     public List<ModuleDto> Modules { get; set; } = [];
     public List<ActionDto> Actions { get; set; } = [];
 }
 
 
 public class GetModuleHandler(IServiceProvider serviceProvider) : BaseHandler(serviceProvider),
-    IRequestHandler<GetModuleQuery, ModuleData>
-{
-    public async Task<ModuleData> Handle(GetModuleQuery request, CancellationToken cancellationToken)
-    {
+    IRequestHandler<GetModuleQuery, ModuleData> {
+    public async Task<ModuleData> Handle(GetModuleQuery request, CancellationToken cancellationToken) {
         ModuleData data = new();
 
         Dictionary<EAction, ActionRelation> relations = GetActionRelations().ToDictionary(o => o.For);
         data.Actions = Enum.GetValues<EAction>()
             .Select(
-                a =>
-                {
+                a => {
                     ActionRelation? rel = relations.GetValueOrDefault(a);
                     return ActionDto.From(
                         a,
@@ -42,8 +38,7 @@ public class GetModuleHandler(IServiceProvider serviceProvider) : BaseHandler(se
 
         var modules = Enum.GetValues<EModule>()
             .Select(
-                m => new
-                {
+                m => new {
                     Div    = (int)m / 10000,
                     Mod    = (int)m % 10000,
                     Module = m,
@@ -51,14 +46,12 @@ public class GetModuleHandler(IServiceProvider serviceProvider) : BaseHandler(se
             .ToList();
 
         var parents = modules.Where(m => m.Mod == 0).OrderBy(o => o.Module).ToList();
-        foreach (var parent in parents)
-        {
+        foreach (var parent in parents) {
             var item = ModuleDto.From(parent.Module);
             item.Children = modules.Where(m => m.Div == parent.Div && m.Mod != 0)
                 .OrderBy(o => o.Mod)
                 .Select(
-                    m =>
-                    {
+                    m => {
                         var i = ModuleDto.From(m.Module);
                         i.NumberOfActions = data.Actions.FindAll(a => a.Module == i.Module).Count;
                         return i;
@@ -73,8 +66,7 @@ public class GetModuleHandler(IServiceProvider serviceProvider) : BaseHandler(se
         return await Task.FromResult(data);
     }
 
-    private IEnumerable<ActionRelation> GetActionRelations()
-    {
+    private IEnumerable<ActionRelation> GetActionRelations() {
         // merchant
         yield return new ActionRelation(EAction.MerchantView).WithUncheck(EAction.MerchantEdit);
         yield return new ActionRelation(EAction.MerchantEdit).WithCheck(EAction.MerchantView);
@@ -97,27 +89,23 @@ public class GetModuleHandler(IServiceProvider serviceProvider) : BaseHandler(se
     }
 
 
-    private class ActionRelation(EAction action)
-    {
+    private class ActionRelation(EAction action) {
         public EAction       For         { get; }      = action;
         public string        Description { get; set; } = string.Empty;
         public List<EAction> Check       { get; set; } = [];
         public List<EAction> Uncheck     { get; set; } = [];
 
-        internal ActionRelation WithCheck(params EAction[] actions)
-        {
+        internal ActionRelation WithCheck(params EAction[] actions) {
             Check = actions.ToList();
             return this;
         }
 
-        internal ActionRelation WithUncheck(params EAction[] actions)
-        {
+        internal ActionRelation WithUncheck(params EAction[] actions) {
             Uncheck = actions.ToList();
             return this;
         }
 
-        internal ActionRelation WithDescription(string description)
-        {
+        internal ActionRelation WithDescription(string description) {
             Description = description;
             return this;
         }

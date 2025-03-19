@@ -1,9 +1,7 @@
 ﻿namespace T.Infrastructure.Database.Configurations;
 
-public class NotificationConfig : IEntityTypeConfiguration<Notification>
-{
-    public void Configure(EntityTypeBuilder<Notification> builder)
-    {
+public class NotificationConfig : IEntityTypeConfiguration<Notification> {
+    public void Configure(EntityTypeBuilder<Notification> builder) {
         builder.ToTable(nameof(Notification));
 
         builder.HasKey(n => n.Id);
