@@ -30,13 +30,14 @@ public class CreateTransactionHandler(IServiceProvider serviceProvider)
     public override async Task<TransactionDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken) {
         Domain.Entities.Transaction entity = new() {
             Id          = Guid.NewGuid(),
+            UserId      = request.UserId,
+            MerchantId  = request.MerchantId,
             CategoryId  = request.CategoryId,
             Description = request.Description,
             Amount      = request.Amount,
             Date        = request.Date,
             CreatedAt   = DateTimeOffset.UtcNow,
             Type        = request.Type,
-            UserId      = request.UserId,
         };
 
         db.Transactions.Add(entity);

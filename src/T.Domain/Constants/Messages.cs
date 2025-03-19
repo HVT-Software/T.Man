@@ -18,5 +18,7 @@ public static class Messages {
     public const string Category_NotFound = "Nhóm không tồn tại";
     public const string Category_Used     = "Nhóm đang được sử dụng";
 
+    public const string Transaction_NotFound = "Giao dịch không tồn tại";
+
     public const string Merchant_NotFound = "Merchant không tồn tại";
 }
