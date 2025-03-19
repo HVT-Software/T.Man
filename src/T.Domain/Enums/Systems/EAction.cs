@@ -59,5 +59,14 @@ public enum EAction {
     [Action(EModule.Category, "Xoá", PermissionKey.CategoryDelete)]
     CategoryDelete = 120103,
 
+    [Action(EModule.Transaction, "Xem", PermissionKey.TransactionView)]
+    TransactionView = 120101,
+
+    [Action(EModule.Transaction, "Thêm/Sửa", PermissionKey.TransactionEdit)]
+    TransactionEdit = 120102,
+
+    [Action(EModule.Transaction, "Xoá", PermissionKey.TransactionDelete)]
+    TransactionDelete = 120103,
+
 #endregion
 }

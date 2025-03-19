@@ -56,5 +56,13 @@ public static class PermissionKey {
     public const string CategoryEdit   = $"{MoneyTrackingPage}_{CategoryModule}_{DefaultEdit}";
     public const string CategoryDelete = $"{MoneyTrackingPage}_{CategoryModule}_{DefaultDelete}";
 
+    // 3.2. Transaction
+
+    private const string TransactionModule = "tra";
+
+    public const string TransactionView   = $"{MoneyTrackingPage}_{TransactionModule}_{DefaultView}";
+    public const string TransactionEdit   = $"{MoneyTrackingPage}_{TransactionModule}_{DefaultEdit}";
+    public const string TransactionDelete = $"{MoneyTrackingPage}_{TransactionModule}_{DefaultDelete}";
+
 #endregion
 }
