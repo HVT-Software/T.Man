@@ -15,34 +15,6 @@ public static class Regexs {
 
 
 public static class FluentValidationExtension {
-    public static IRuleBuilderOptions<T, string> NotEmpty<T, TProperty>(
-        this IRuleBuilder<T, string> builder,
-        Expression<Func<T, TProperty>> columnSelector) {
-        string columnName = Description(columnSelector);
-        return builder.NotEmpty().WithMessage(o => $"{columnName} không được để trống.");
-    }
-
-    public static void MinMax<T>(
-        this IRuleBuilder<T, string> builder,
-        Expression<Func<T, string>> columnSelector,
-        int min,
-        int? max = null) {
-        string columnName = Description(columnSelector);
-
-        if (max != null) { builder.Length(min, max.Value).WithMessage(o => $"{columnName} phải từ {min} đến {max} ký tự."); }
-        else { builder.Length(min).WithMessage(o => $"{columnName} phải từ {min} ký tự trở lên."); }
-    }
-
-    public static void MinMax<T, TProperty>(
-        this IRuleBuilder<T, TProperty> builder,
-        Expression<Func<T, TProperty>> columnSelector,
-        TProperty min,
-        TProperty? max = default) where TProperty : IComparable<TProperty>, IComparable {
-        string columnName = Description(columnSelector);
-        if (max != null) { builder.GreaterThanOrEqualTo(min).WithMessage(o => $"{columnName} phải từ {min} đến {max}."); }
-        else { builder.GreaterThan(min).WithMessage(o => $"{columnName} phải từ {min} trở lên."); }
-    }
-
     public static IRuleBuilderOptions<T, string> Phone<T>(this IRuleBuilder<T, string> builder) {
         return builder.Matches(Regexs.VietnamesePhone).WithMessage("Số điện thoại không hợp lệ.");
     }
@@ -65,4 +37,72 @@ public static class FluentValidationExtension {
 
         return((DescriptionAttribute)attrs[0]).Description;
     }
+
+#region String limit
+
+    public static IRuleBuilderOptions<T, string> NotEmpty<T, TProperty>(
+        this IRuleBuilder<T, string> builder,
+        Expression<Func<T, TProperty>> columnSelector) {
+        string columnName = Description(columnSelector);
+        return builder.NotEmpty().WithMessage(o => $"{columnName} không được để trống.");
+    }
+
+    public static void MinMax<T>(
+        this IRuleBuilder<T, string> builder,
+        Expression<Func<T, string>> columnSelector,
+        int min,
+        int? max = null) {
+        string columnName = Description(columnSelector);
+
+        if (max != null) { builder.Length(min, max.Value).WithMessage(o => $"{columnName} phải từ {min} đến {max} ký tự."); }
+        else { builder.MinimumLength(min).WithMessage(o => $"{columnName} phải từ {min} ký tự trở lên."); }
+    }
+
+    public static void Min<T>(
+        this IRuleBuilder<T, string> builder,
+        Expression<Func<T, string>> columnSelector,
+        int minLength) {
+        string columnName = Description(columnSelector);
+        builder.MinimumLength(minLength).WithMessage(o => $"{columnName} phải dài ít nhất {minLength} ký tự.");
+    }
+
+    public static IRuleBuilderOptions<T, string> Max<T>(
+        this IRuleBuilder<T, string> builder,
+        Expression<Func<T, string>> columnSelector,
+        int maxLength) {
+        string columnName = Description(columnSelector);
+        return builder.MaximumLength(maxLength).WithMessage(o => $"{columnName} phải dài tối đa {maxLength} ký tự.");
+    }
+
+#endregion
+
+#region Number litmit
+
+    public static void MinMax<T, TProperty>(
+        this IRuleBuilder<T, TProperty> builder,
+        Expression<Func<T, TProperty>> columnSelector,
+        TProperty min,
+        TProperty? max = default) where TProperty : IComparable<TProperty>, IComparable {
+        string columnName = Description(columnSelector);
+        if (max != null) { builder.GreaterThanOrEqualTo(min).WithMessage(o => $"{columnName} phải từ {min} đến {max}."); }
+        else { builder.GreaterThan(min).WithMessage(o => $"{columnName} phải từ {min} trở lên."); }
+    }
+
+    public static void Min<T, TProperty>(
+        this IRuleBuilder<T, TProperty> builder,
+        Expression<Func<T, TProperty>> columnSelector,
+        TProperty min) where TProperty : IComparable<TProperty>, IComparable {
+        string columnName = Description(columnSelector);
+        builder.GreaterThanOrEqualTo(min).WithMessage(o => $"{columnName} phải từ {min} trở lên.");
+    }
+
+    public static void Max<T, TProperty>(
+        this IRuleBuilder<T, TProperty> builder,
+        Expression<Func<T, TProperty>> columnSelector,
+        TProperty max) where TProperty : IComparable<TProperty>, IComparable {
+        string columnName = Description(columnSelector);
+        builder.LessThanOrEqualTo(max).WithMessage(o => $"{columnName} phải nhỏ hơn hoặc bằng {max}.");
+    }
+
+#endregion
 }
