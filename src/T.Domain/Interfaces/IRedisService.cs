@@ -1,26 +1,37 @@
-﻿using StackExchange.Redis;
+﻿#region
+
+using StackExchange.Redis;
 using T.Domain.Models;
 
-namespace T.Domain.Interfaces {
-    public interface IRedisService {
+#endregion
 
-        IDatabase GetDatabase();
+namespace T.Domain.Interfaces;
 
-        Task<bool> KeyExistsAsync(string key);
+public interface IRedisService {
+    IDatabase GetDatabase();
 
-        Task<RedisValue<T>> GetAsync<T>(string key);
+    Task<bool> KeyExistsAsync(string key);
 
-        Task SetAsync(string key, object? data, TimeSpan? ttl = null);
+    Task<RedisValue<T>> GetAsync<T>(string key);
 
-        Task RemoveAsync(string key);
+    Task SetAsync(
+        string key,
+        object? data,
+        TimeSpan? ttl = null);
 
-        Task SetValueAsync(string key, List<string> values, TimeSpan? ttl = null);
+    Task RemoveAsync(string key);
 
-        Task RemoveSetValueAsync(string key, List<string> values, TimeSpan? ttl = null);
+    Task SetValueAsync(
+        string key,
+        List<string> values,
+        TimeSpan? ttl = null);
 
-        List<string> GetSetValue(string key);
+    Task RemoveSetValueAsync(
+        string key,
+        List<string> values,
+        TimeSpan? ttl = null);
 
-        Task<List<string>> GetSetValueAsync(string key);
-    }
+    List<string> GetSetValue(string key);
 
+    Task<List<string>> GetSetValueAsync(string key);
 }

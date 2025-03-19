@@ -1,24 +1,22 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿#region
+
+using Microsoft.AspNetCore.Http;
 using T.Domain.Common;
 using T.Domain.Constants;
 using T.Domain.Exceptions;
 using T.Domain.Extensions;
 
+#endregion
+
 namespace T.Domain.Middlewares;
 
 public class ExceptionMiddleware : IMiddleware {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next) {
-        try {
-            await next(context);
-        } catch (ValidationException ex) {
-            await HandleValidationException(context, ex);
-        } catch (AppEx ex) {
-            await HandleAppException(context, ex);
-        } catch (UnauthorizedAccessException) {
-            await HandleUnauthorizedAccessException(context);
-        } catch (Exception) {
-            await HandleException(context);
-        }
+        try { await next(context); }
+        catch (ValidationException ex) { await HandleValidationException(context, ex); }
+        catch (AppEx ex) { await HandleAppException(context, ex); }
+        catch (UnauthorizedAccessException) { await HandleUnauthorizedAccessException(context); }
+        catch (Exception) { await HandleException(context); }
     }
 
     private async Task HandleValidationException(HttpContext httpContext, Exception ex) {

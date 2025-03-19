@@ -1,0 +1,27 @@
+﻿#region
+
+using Microsoft.EntityFrameworkCore;
+using T.Application.Base;
+using T.Domain.Common;
+using T.Domain.Constants;
+using T.Domain.Extensions;
+
+#endregion
+
+namespace T.Application.Commands.Category;
+
+public class DeleteCategoryCommand : SingleRequest { }
+
+
+public class DeleteCategoryHandler(IServiceProvider serviceProvider) : BaseHandler<DeleteCategoryCommand>(serviceProvider) {
+    public override async Task Handle(DeleteCategoryCommand request, CancellationToken cancellationToken) {
+        Domain.Entities.Category? entity = await db.Categories.FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+        AppEx.ThrowIfNull(entity, Messages.Category_NotFound);
+
+        bool exists = await db.Transactions.AnyAsync(o => o.CategoryId == request.Id, cancellationToken);
+        AppEx.ThrowIf(exists, Messages.Category_Used);
+
+        db.Categories.Remove(entity);
+        await db.SaveChangesAsync(cancellationToken);
+    }
+}

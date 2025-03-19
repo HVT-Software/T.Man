@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth"/>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\T.Infrastructure\T.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\T.Infrastructure\T.Infrastructure.csproj"/>
   </ItemGroup>
 
 </Project>

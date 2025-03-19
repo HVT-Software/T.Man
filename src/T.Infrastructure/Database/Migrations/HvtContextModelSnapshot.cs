@@ -23,6 +23,109 @@ namespace T.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("T.Domain.Entities.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Budget")
+                        .HasPrecision(28, 2)
+                        .HasColumnType("numeric(28,2)");
+
+                    b.Property<long>("CreateAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("MerchantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MerchantId");
+
+                    b.ToTable("Category", "public");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.CategoryHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("BudgetAmount")
+                        .HasPrecision(28, 2)
+                        .HasColumnType("numeric(28,2)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Month")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("UsedAmount")
+                        .HasPrecision(28, 2)
+                        .HasColumnType("numeric(28,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoryHistory", "public");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.Debt", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(28, 2)
+                        .HasColumnType("numeric(28,2)");
+
+                    b.Property<string>("BorrowerName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<long>("CreatedAt")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Date")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ExpectedReturnDate")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Debt", "public");
+                });
+
             modelBuilder.Entity("T.Domain.Entities.Merchant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -55,6 +158,35 @@ namespace T.Infrastructure.Database.Migrations
                     b.ToTable("Merchant", "public");
                 });
 
+            modelBuilder.Entity("T.Domain.Entities.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notification", "public");
+                });
+
             modelBuilder.Entity("T.Domain.Entities.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -70,7 +202,7 @@ namespace T.Infrastructure.Database.Migrations
                     b.Property<long>("CreateAt")
                         .HasColumnType("bigint");
 
-                    b.Property<bool>("IsDelete")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<Guid>("MerchantId")
@@ -119,6 +251,51 @@ namespace T.Infrastructure.Database.Migrations
                     b.ToTable("RoleAction", "public");
                 });
 
+            modelBuilder.Entity("T.Domain.Entities.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(28, 2)
+                        .HasColumnType("numeric(28,2)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("MerchantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transaction", "public");
+                });
+
             modelBuilder.Entity("T.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -146,7 +323,7 @@ namespace T.Infrastructure.Database.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsDelete")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsSystem")
@@ -198,6 +375,50 @@ namespace T.Infrastructure.Database.Migrations
                     b.ToTable("User", "public");
                 });
 
+            modelBuilder.Entity("T.Domain.Entities.Category", b =>
+                {
+                    b.HasOne("T.Domain.Entities.Merchant", "Merchant")
+                        .WithMany("Categories")
+                        .HasForeignKey("MerchantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Merchant");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.CategoryHistory", b =>
+                {
+                    b.HasOne("T.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.Debt", b =>
+                {
+                    b.HasOne("T.Domain.Entities.User", "User")
+                        .WithMany("Debit")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.Notification", b =>
+                {
+                    b.HasOne("T.Domain.Entities.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("T.Domain.Entities.RoleAction", b =>
                 {
                     b.HasOne("T.Domain.Entities.Role", "Role")
@@ -207,6 +428,25 @@ namespace T.Infrastructure.Database.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.Transaction", b =>
+                {
+                    b.HasOne("T.Domain.Entities.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("T.Domain.Entities.User", "User")
+                        .WithMany("Transactions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("T.Domain.Entities.User", b =>
@@ -228,6 +468,8 @@ namespace T.Infrastructure.Database.Migrations
 
             modelBuilder.Entity("T.Domain.Entities.Merchant", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("Users");
                 });
 
@@ -236,6 +478,15 @@ namespace T.Infrastructure.Database.Migrations
                     b.Navigation("RoleActions");
 
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("T.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Debit");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

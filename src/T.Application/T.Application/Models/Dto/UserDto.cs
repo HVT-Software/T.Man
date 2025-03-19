@@ -1,7 +1,10 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿#region
+
 using Newtonsoft.Json;
-using T.Domain.Entities;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+
+#endregion
 
 namespace T.Application.Models.Dto;
 
@@ -25,14 +28,14 @@ public class UserDto {
 
     [return: NotNullIfNotNull(nameof(entity))]
     public static UserDto? FromEntity(User? entity) {
-        if (entity == null) return null;
+        if (entity == null) { return null; }
 
         return new UserDto {
-            Id = entity.Id,
-            Username = entity.Username,
-            IsActive = entity.IsActive,
-            IsAdmin = entity.IsAdmin,
-            Role = RoleDto.FromEntity(entity.Role, []),
+            Id        = entity.Id,
+            Username  = entity.Username,
+            IsActive  = entity.IsActive,
+            IsAdmin   = entity.IsAdmin,
+            Role      = RoleDto.FromEntity(entity.Role, []),
             CreatedAt = entity.CreatedAt,
         };
     }

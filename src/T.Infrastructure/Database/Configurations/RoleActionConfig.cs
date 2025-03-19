@@ -1,7 +1,6 @@
 ﻿namespace T.Infrastructure.Database.Configurations;
 
 internal class RoleActionConfig : IEntityTypeConfiguration<RoleAction> {
-
     public void Configure(EntityTypeBuilder<RoleAction> builder) {
         builder.ToTable(nameof(RoleAction));
 

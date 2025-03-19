@@ -1,22 +1,25 @@
-﻿using T.Domain.Extensions;
+﻿#region
 
-namespace T.Infrastructure.Database.Configurations {
+using T.Domain.Extensions;
 
-    internal class MerchantConfig : IEntityTypeConfiguration<Merchant> {
+#endregion
 
-        public void Configure(EntityTypeBuilder<Merchant> builder) {
-            builder.ToTable(nameof(Merchant));
+namespace T.Infrastructure.Database.Configurations;
 
-            builder.HasKey(o => o.Id);
-            builder.Property(o => o.Code).HasMaxLength(50).IsRequired();
-            builder.Property(o => o.Name).HasMaxLength(255).IsRequired();
-            builder.Property(o => o.SearchName).HasMaxLength(255).IsRequired();
+internal class MerchantConfig : IEntityTypeConfiguration<Merchant> {
+    public void Configure(EntityTypeBuilder<Merchant> builder) {
+        builder.ToTable(nameof(Merchant));
 
-            // index
-            builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
+        builder.HasKey(o => o.Id);
+        builder.Property(o => o.Code).HasMaxLength(50).IsRequired();
+        builder.Property(o => o.Name).HasMaxLength(255).IsRequired();
+        builder.Property(o => o.SearchName).HasMaxLength(255).IsRequired();
 
-            // relationship
-            builder.HasMany(o => o.Users).WithOne(o => o.Merchant).HasForeignKey(o => o.MerchantId);
-        }
+        // index
+        builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
+
+        // relationship
+        builder.HasMany(o => o.Users).WithOne(o => o.Merchant).HasForeignKey(o => o.MerchantId);
+        builder.HasMany(o => o.Categories).WithOne(o => o.Merchant).HasForeignKey(o => o.MerchantId);
     }
 }

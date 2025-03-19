@@ -1,27 +1,48 @@
-﻿using Newtonsoft.Json;
+﻿#region
+
+using Newtonsoft.Json;
 using T.Domain.Constants;
+
+#endregion
 
 namespace T.Domain.Common;
 
 public class Result {
-
     [JsonProperty("success")]
     public bool Success { get; set; }
 
     [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
     public string? Message { get; set; }
+
+    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
+    public object? Data { get; set; }
+
     public IDictionary<string, string[]>? Errors { get; set; }
 
     public static Result Ok() {
-        return new Result { Success = true };
+        return new Result {
+            Success = true,
+        };
+    }
+
+    public static Result Ok<T>(T? data) {
+        return new Result {
+            Success = true,
+            Data    = data,
+        };
     }
 
     public static Result Fail(string? message = null) {
-        return new Result { Message = message };
+        return new Result {
+            Message = message,
+        };
     }
 
     public static Result Fail(IDictionary<string, string[]>? errors = null) {
-        return new Result { Message = Messages.Validation_Fail, Errors = errors };
+        return new Result {
+            Message = Messages.Validation_Fail,
+            Errors  = errors,
+        };
     }
 
     public override string ToString() {
@@ -29,17 +50,8 @@ public class Result {
     }
 }
 
-public class Result<T> : Result {
-
-    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-    public T? Data { get; set; }
-
-    public static Result<T> Ok(T? data) {
-        return new Result<T> { Success = true, Data = data };
-    }
-}
 
 public class FileResult {
-    public string FileName { get; set; } = string.Empty;
+    public string FileName  { get; set; } = string.Empty;
     public byte[] ByteArray { get; set; } = [];
 }
