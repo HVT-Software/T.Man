@@ -31,7 +31,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: registry.hvantoan.io.vn/hvantoan/T.Man:latest
+          tags: registry.hvantoan.io.vn/hvantoan/t-man-api:latest
 
       - name: SSH Remote Docker Compose
         uses: appleboy/ssh-action@v0.1.10

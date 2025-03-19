@@ -19,8 +19,8 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
         return Result.Ok(res);
     }
 
-    [HttpPost("{provider}")]
     [Authorize]
+    [HttpPost("{provider}")]
     public async Task<Result> Register([FromRoute] string provider, [FromBody] RegisterMerchantCommand command) {
         command.Provider = provider;
         LoginResult res = await mediator.Send(command);
