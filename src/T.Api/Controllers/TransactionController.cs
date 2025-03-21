@@ -17,21 +17,21 @@ public class TransactionController(IServiceProvider serviceProvider) : BaseContr
     [HvtAction(EAction.TransactionView)]
     public async Task<Result> GetList([FromQuery] ListTransactionQuery request) {
         WrapperData<TransactionDto> result = await mediator.Send(request);
-        return Result.Ok(result);
+        return Result<WrapperData<TransactionDto>>.Ok(result);
     }
 
     [HttpPost]
     [HvtAction(EAction.TransactionEdit)]
     public async Task<Result> Create(CreateTransactionCommand command) {
         TransactionDto result = await mediator.Send(command);
-        return Result.Ok(result);
+        return Result<TransactionDto>.Ok(result);
     }
 
     [HttpPut("{id}")]
     [HvtAction(EAction.TransactionEdit)]
     public async Task<Result> Update([FromRoute] Guid id, [FromBody] TransactionDto model) {
         TransactionDto result = await mediator.Send(new UpdateTransactionCommand { Id = id, Model = model });
-        return Result.Ok(result);
+        return Result<TransactionDto>.Ok(result);
     }
 
     [HttpDelete("{id}")]

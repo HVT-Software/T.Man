@@ -16,7 +16,7 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
     [AllowAnonymous]
     public async Task<Result> Login(LoginQuery req) {
         LoginResult res = await mediator.Send(req);
-        return Result.Ok(res);
+        return Result<LoginResult>.Ok(res);
     }
 
     [Authorize]
@@ -24,6 +24,6 @@ public class AuthController(IServiceProvider serviceProvider) : BaseController(s
     public async Task<Result> Register([FromRoute] string provider, [FromBody] RegisterMerchantCommand command) {
         command.Provider = provider;
         LoginResult res = await mediator.Send(command);
-        return Result.Ok(res);
+        return Result<LoginResult>.Ok(res);
     }
 }

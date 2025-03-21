@@ -14,21 +14,11 @@ public class Result {
     [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
     public string? Message { get; set; }
 
-    [JsonProperty("data", NullValueHandling = NullValueHandling.Ignore)]
-    public object? Data { get; set; }
-
     public IDictionary<string, string[]>? Errors { get; set; }
 
     public static Result Ok() {
         return new Result {
             Success = true,
-        };
-    }
-
-    public static Result Ok<T>(T? data) {
-        return new Result {
-            Success = true,
-            Data    = data,
         };
     }
 
@@ -47,6 +37,31 @@ public class Result {
 
     public override string ToString() {
         return JsonConvert.SerializeObject(this);
+    }
+}
+
+
+public class Result<T> : Result {
+    public T? Data { get; set; }
+
+    public static Result<T> Ok(T? data) {
+        return new Result<T> {
+            Success = true,
+            Data    = data,
+        };
+    }
+
+    public new static Result<T> Fail(string? message = null) {
+        return new Result<T> {
+            Message = message,
+        };
+    }
+
+    public new static Result<T> Fail(IDictionary<string, string[]>? errors = null) {
+        return new Result<T> {
+            Message = Messages.Validation_Fail,
+            Errors  = errors,
+        };
     }
 }
 

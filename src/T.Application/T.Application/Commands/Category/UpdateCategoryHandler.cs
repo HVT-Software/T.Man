@@ -16,7 +16,7 @@ public class UpdateCategoryCommand : UpdateRequest<CategoryDto, CategoryDto> { }
 
 internal class UpdateCategoryHandler(IServiceProvider serviceProvider) : BaseHandler<UpdateCategoryCommand, CategoryDto>(serviceProvider) {
     public override async Task<CategoryDto> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken) {
-        Domain.Entities.Category? entity = await db.Categories.FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+        Domain.Entities.Category? entity = await db.Categories.AsTracking().FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
         AppEx.ThrowIfNull(entity, Messages.NotFound);
 
         entity.Name        = request.Model.Name;

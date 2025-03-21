@@ -16,7 +16,10 @@ public class ExceptionMiddleware : IMiddleware {
         catch (ValidationException ex) { await HandleValidationException(context, ex); }
         catch (AppEx ex) { await HandleAppException(context, ex); }
         catch (UnauthorizedAccessException) { await HandleUnauthorizedAccessException(context); }
-        catch (Exception) { await HandleException(context); }
+        catch (Exception ex) {
+            Console.WriteLine(ex.Message);
+            await HandleException(context);
+        }
     }
 
     private async Task HandleValidationException(HttpContext httpContext, Exception ex) {

@@ -11,7 +11,7 @@ using T.Domain.Constants;
 namespace T.Domain.Behaviors;
 
 public class HeaderMapperBehavior
-    <TRequest, TResponse>(IHttpContextAccessor httpContextAccessor) : IPipelineBehavior<TRequest, TResponse> where TRequest : Request {
+    <TRequest, TResponse>(IHttpContextAccessor httpContextAccessor) : IPipelineBehavior<TRequest, TResponse> where TRequest : BaseRequest {
     private readonly HttpContext? httpContext = httpContextAccessor.HttpContext;
 
     public async Task<TResponse> Handle(

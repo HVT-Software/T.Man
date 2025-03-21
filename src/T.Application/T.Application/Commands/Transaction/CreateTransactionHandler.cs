@@ -40,7 +40,7 @@ public class CreateTransactionHandler(IServiceProvider serviceProvider)
             Type        = request.Type,
         };
 
-        db.Transactions.Add(entity);
+        await db.Transactions.AddAsync(entity, cancellationToken);
         await db.SaveChangesAsync(cancellationToken);
         return TransactionDto.ToDto(entity);
     }

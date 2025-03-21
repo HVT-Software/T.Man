@@ -21,22 +21,22 @@ public class CategoryController(IServiceProvider serviceProvider) : BaseControll
     [HvtAction(EAction.CategoryView)]
     public async Task<Result> GetList([FromQuery] ListCategoryQuery request) {
         WrapperData<CategoryDto> result = await mediator.Send(request);
-        return Result.Ok(result);
+        return Result<WrapperData<CategoryDto>>.Ok(result);
     }
 
     [HttpGet("{id}")]
     [HvtAction(EAction.CategoryView)]
     public async Task<Result> GetById([FromRoute] Guid id) {
-        var         request = new GetCategoryByIdQuery { Id = id };
-        CategoryDto result  = await mediator.Send(request);
-        return Result.Ok(result);
+        var          request = new GetCategoryByIdQuery { Id = id };
+        CategoryDto? result  = await mediator.Send(request);
+        return Result<CategoryDto>.Ok(result);
     }
 
     [HttpPost]
     [HvtAction(EAction.CategoryEdit)]
     public async Task<Result> Create(CreateCategoryCommand command) {
         CategoryDto result = await mediator.Send(command);
-        return Result.Ok(result);
+        return Result<CategoryDto>.Ok(result);
     }
 
     [HttpPut("{id}")]
@@ -47,7 +47,7 @@ public class CategoryController(IServiceProvider serviceProvider) : BaseControll
                 Id    = id,
                 Model = model,
             });
-        return Result.Ok(result);
+        return Result<CategoryDto>.Ok(result);
     }
 
     [HttpDelete("{id}")]

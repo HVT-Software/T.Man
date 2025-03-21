@@ -16,7 +16,7 @@ public class ListTransactionQuery : PaginatedRequest<WrapperData<TransactionDto>
 public class ListTransactionHandler(IServiceProvider serviceProvider)
     : BaseHandler<ListTransactionQuery, WrapperData<TransactionDto>>(serviceProvider) {
     public override async Task<WrapperData<TransactionDto>> Handle(ListTransactionQuery request, CancellationToken cancellationToken) {
-        IQueryable<TransactionDto> query = db.Transactions.AsNoTracking()
+        IQueryable<TransactionDto> query = db.Transactions.Include(o => o.Category)
             .Where(x => x.MerchantId == request.MerchantId && !x.IsDeleted)
             .Select(o => TransactionDto.ToDto(o));
 

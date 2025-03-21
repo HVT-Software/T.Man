@@ -32,6 +32,8 @@ public class CreateCategoryHandler(IServiceProvider serviceProvider) : BaseHandl
             Name        = request.Name,
             Description = request.Description,
             Budget      = request.Budget,
+            MerchantId  = request.MerchantId,
+            CreateAt    = DateTimeOffset.UtcNow,
         };
 
         db.Categories.Add(entity);

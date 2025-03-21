@@ -17,7 +17,8 @@ public class UpdateTransactionCommand : UpdateRequest<TransactionDto, Transactio
 internal class UpdateTransactionHandler(IServiceProvider serviceProvider)
     : BaseHandler<UpdateTransactionCommand, TransactionDto>(serviceProvider) {
     public override async Task<TransactionDto> Handle(UpdateTransactionCommand request, CancellationToken cancellationToken) {
-        Domain.Entities.Transaction? entity = await db.Transactions.FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
+        Domain.Entities.Transaction? entity = await db.Transactions.AsTracking()
+            .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
         AppEx.ThrowIfNull(entity, Messages.NotFound);
 
         entity.CategoryId  = request.Model.CategoryId;
