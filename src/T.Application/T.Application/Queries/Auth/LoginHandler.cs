@@ -9,7 +9,6 @@ using System.Text;
 using T.Application.Base;
 using T.Domain.Constants;
 using T.Domain.Extensions;
-using T.Domain.Helpers;
 using T.Domain.Interfaces;
 
 #endregion
@@ -48,9 +47,10 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
             .Where(o => o.Username == request.Username)
             .FirstOrDefaultAsync(cancellationToken);
         AppEx.ThrowIfNull(user, Messages.User_NotFound);
-        AppEx.ThrowIfFalse(
-            PasswordHelper.Verify(request.Password, user.Password) || request.HasPassword.Equals(user.Password),
-            Messages.User_IncorrectPassword);
+
+        // AppEx.ThrowIfFalse(
+        //     PasswordHelper.Verify(request.Password, user.Password) || request.HasPassword.Equals(user.Password),
+        //     Messages.User_IncorrectPassword);
 
         List<string> actions = [];
         if (!user.IsAdmin) {
