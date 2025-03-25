@@ -21,7 +21,7 @@ public class ListCategoryHandler(IServiceProvider serviceProvider)
             .Select(o => CategoryDto.ToDto(o));
 
         return new WrapperData<CategoryDto> {
-            Items      = await query.Paging(!request.IsAll, request.PageIndex, request.PageSize).ToListAsync(cancellationToken),
+            Items      = await query.Paging(!request.IsAll, request.Skip, request.Take).ToListAsync(cancellationToken),
             TotalCount = await query.CountIf(!request.IsAll, o => o.Id, cancellationToken),
         };
     }
