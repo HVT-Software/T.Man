@@ -21,7 +21,7 @@ public class ListTransactionHandler(IServiceProvider serviceProvider)
             .Select(o => TransactionDto.ToDto(o));
 
         return new WrapperData<TransactionDto> {
-            Items      = await query.Paging(request.PageIndex, request.PageSize).ToListAsync(cancellationToken),
+            Items      = await query.Paging(request.Skip, request.Take).ToListAsync(cancellationToken),
             TotalCount = await query.CountAsync(cancellationToken),
         };
     }
