@@ -43,7 +43,7 @@ public abstract class BasePaginatedRequest : BaseRequest {
     public bool    IsCount    { get; set; }
     public string? SearchText { get; set; }
     public bool    IsAll      { get; set; }
-    public int     Skip       { get => PageIndex * PageSize; }
+    public int     Skip       { get => Math.Max(PageIndex - 1, 0) * PageSize; }
     public int     Take       { get => PageSize; }
 }
 
