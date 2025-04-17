@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using T.Infrastructure.Database;
@@ -11,9 +12,11 @@ using T.Infrastructure.Database;
 namespace T.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(HvtContext))]
-    partial class HvtContextModelSnapshot : ModelSnapshot
+    [Migration("20250417102203_Transaction_Change_Names")]
+    partial class Transaction_Change_Names
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,10 +267,10 @@ namespace T.Infrastructure.Database.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("CreatedAt")
+                    b.Property<long>("CreatedAtT")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Date")
+                    b.Property<long>("DateT")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Description")
