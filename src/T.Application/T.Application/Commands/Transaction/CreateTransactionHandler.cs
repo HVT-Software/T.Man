@@ -35,8 +35,8 @@ public class CreateTransactionHandler(IServiceProvider serviceProvider)
             CategoryId  = request.CategoryId,
             Description = request.Description,
             Amount      = request.Amount,
-            Date        = request.Date,
-            CreatedAt   = DateTimeOffset.UtcNow,
+            Date       = request.Date,
+            CreatedAt  = DateTimeOffset.UtcNow,
             Type        = request.Type,
         };
 

@@ -3,4 +3,5 @@
 public enum ETransactionType {
     Income,
     Expense,
+    Debt,
 }

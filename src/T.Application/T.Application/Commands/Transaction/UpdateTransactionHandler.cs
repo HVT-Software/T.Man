@@ -25,7 +25,7 @@ internal class UpdateTransactionHandler(IServiceProvider serviceProvider)
         entity.Type        = request.Model.Type;
         entity.Amount      = request.Model.Amount;
         entity.Description = request.Model.Description;
-        entity.Date        = request.Model.Date;
+        entity.Date       = request.Model.Date;
 
         await db.SaveChangesAsync(cancellationToken);
         return TransactionDto.ToDto(entity);
