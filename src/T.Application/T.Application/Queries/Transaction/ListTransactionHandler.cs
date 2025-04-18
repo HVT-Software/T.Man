@@ -18,6 +18,7 @@ public class ListTransactionHandler(IServiceProvider serviceProvider)
     public override async Task<WrapperData<TransactionDto>> Handle(ListTransactionQuery request, CancellationToken cancellationToken) {
         IQueryable<TransactionDto> query = db.Transactions.Include(o => o.Category)
             .Where(x => x.MerchantId == request.MerchantId && !x.IsDeleted)
+            .WhereDate(request.From, request.To, o => o.Date)
             .OrderByDescending(o => o.CreatedAt)
             .Select(o => TransactionDto.ToDto(o));
 
