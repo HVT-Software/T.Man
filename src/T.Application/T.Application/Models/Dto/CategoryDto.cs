@@ -28,9 +28,10 @@ public class CategoryDto {
 
     public static CategoryDto ToDtoView(Category category) {
         return new CategoryDto {
-            Id     = category.Id,
-            Name   = category.Name,
-            Budget = category.Budget,
+            Id       = category.Id,
+            Name     = category.Name,
+            Budget   = category.Budget,
+            CreateAt = category.CreateAt,
         };
     }
 }

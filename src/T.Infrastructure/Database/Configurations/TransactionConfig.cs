@@ -12,7 +12,8 @@ public class TransactionConfig : IEntityTypeConfiguration<Transaction> {
 
         builder.HasKey(t => t.Id);
         builder.Property(t => t.Amount).HasCurrencyPrecision().IsRequired();
-        builder.Property(t => t.Date).IsRequired();
+        builder.Property(t => t.Date).HasDateConversion().IsRequired();
+        builder.Property(t => t.CreatedAt).HasDateConversion().IsRequired();
         builder.Property(t => t.Description).HasMaxLength(500);
         builder.Property(t => t.Type).IsRequired();
 
