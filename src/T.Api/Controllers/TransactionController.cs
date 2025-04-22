@@ -13,11 +13,20 @@ namespace T.Api.Controllers;
 [HvtAction]
 [Route("api/transactions")]
 public class TransactionController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
-    [HttpGet]
+    [HttpPost]
+    [Route("list")]
     [HvtAction(EAction.TransactionView)]
-    public async Task<Result> GetList([FromQuery] ListTransactionQuery request) {
+    public async Task<Result> GetList(ListTransactionQuery request) {
         WrapperData<TransactionDto> result = await mediator.Send(request);
         return Result<WrapperData<TransactionDto>>.Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    [HvtAction(EAction.CategoryView)]
+    public async Task<Result> GetById([FromRoute] Guid id) {
+        var             request = new GetTransactionByIdQuery { Id = id };
+        TransactionDto? result  = await mediator.Send(request);
+        return Result<TransactionDto>.Ok(result);
     }
 
     [HttpPost]
