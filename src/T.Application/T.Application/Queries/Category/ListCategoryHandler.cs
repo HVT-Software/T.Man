@@ -23,7 +23,7 @@ public class ListCategoryHandler(IServiceProvider serviceProvider)
 
         return new WrapperData<CategoryDto> {
             Items      = await query.Paging(!request.IsAll, request.Skip, request.Take).ToListAsync(cancellationToken),
-            TotalCount = await query.CountIf(!request.IsAll, o => o.Id, cancellationToken),
+            TotalCount = await query.CountIf(request.IsCount, o => o.Id, cancellationToken),
         };
     }
 }
