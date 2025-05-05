@@ -7,6 +7,7 @@ using T.Domain.Enums;
 namespace T.Application.Models.Dto;
 
 public class TransactionDto {
+    public Guid             Id          { get; set; }
     public Guid             UserId      { get; set; }
     public Guid             CategoryId  { get; set; }
     public ETransactionType Type        { get; set; }
@@ -18,6 +19,7 @@ public class TransactionDto {
 
     public static TransactionDto ToDto(Transaction transaction) {
         return new TransactionDto {
+            Id          = transaction.Id,
             UserId      = transaction.UserId,
             CategoryId  = transaction.CategoryId,
             Type        = transaction.Type,
