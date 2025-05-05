@@ -30,7 +30,7 @@ public class ExceptionMiddleware : IMiddleware {
 
     private async Task HandleAppException(HttpContext httpContext, Exception ex) {
         var exception = (AppEx)ex;
-        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        httpContext.Response.StatusCode = StatusCodes.Status200OK;
         await httpContext.Response.WriteAsJsonAsync(Result.Fail(exception.Message));
     }
 

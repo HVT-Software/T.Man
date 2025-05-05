@@ -18,7 +18,7 @@ public class DeleteCategoryHandler(IServiceProvider serviceProvider) : BaseHandl
         Domain.Entities.Category? entity = await db.Categories.AsTracking().FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
         AppEx.ThrowIfNull(entity, Messages.Category_NotFound);
 
-        bool exists = await db.Transactions.AnyAsync(o => o.CategoryId == request.Id, cancellationToken);
+        bool exists = await db.Transactions.AnyAsync(o => o.CategoryId == request.Id && !o.IsDeleted, cancellationToken);
         AppEx.ThrowIf(exists, Messages.Category_Used);
 
         entity.IsDeleted = true;
