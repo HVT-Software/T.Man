@@ -6,6 +6,7 @@ namespace T.Domain.Services;
 
 // TranslateService.cs
 
+
 public class TranslateService(IHttpClientFactory httpClientFactory) : ITranslateService {
     private readonly HttpClient http = httpClientFactory.CreateClient("datpmt");
 
@@ -29,16 +30,6 @@ public class TranslateService(IHttpClientFactory httpClientFactory) : ITranslate
         Ensure(text, nameof(text));
         List<string>? resp = await http.GetFromJsonAsync<List<string>>(
             $"alternate_translations?string={Uri.EscapeDataString(text)}&from_lang={fromLang}&to_lang={toLang}",
-            cancellationToken);
-        return resp!;
-    }
-
-    public async Task<IReadOnlyList<Dictionary<string, List<string?>>>> GetDefinitionsAsync(
-        string keyword,
-        CancellationToken cancellationToken = default) {
-        Ensure(keyword, nameof(keyword));
-        List<Dictionary<string, List<string?>>>? resp = await http.GetFromJsonAsync<List<Dictionary<string, List<string?>>>>(
-            $"definitions?keyword={Uri.EscapeDataString(keyword)}",
             cancellationToken);
         return resp!;
     }
@@ -81,7 +72,13 @@ public class TranslateService(IHttpClientFactory httpClientFactory) : ITranslate
         return await http.GetFromJsonAsync<string>($"see_more?keyword={Uri.EscapeDataString(keyword)}", cancellationToken) ?? string.Empty;
     }
 
+    public async Task<string> GetDefinitionsAsync(string keyword, CancellationToken cancellationToken = default) {
+        Ensure(keyword, nameof(keyword));
+        string? resp = await http.GetStringAsync($"definitions?keyword={Uri.EscapeDataString(keyword)}", cancellationToken);
+        return resp!;
+    }
+
     private static void Ensure(string s, string paramName) {
-        if (string.IsNullOrWhiteSpace(s)) { throw new ArgumentException("Value cannot be empty.", paramName); }
+        if (string.IsNullOrWhiteSpace(s)) { throw new ArgumentException("Dữ liệu không được để trống.", paramName); }
     }
 }

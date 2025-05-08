@@ -13,9 +13,7 @@ public interface ITranslateService {
         string toLang = "vi",
         CancellationToken cancellationToken = default);
 
-    Task<IReadOnlyList<Dictionary<string, List<string?>>>> GetDefinitionsAsync(
-        string keyword,
-        CancellationToken cancellationToken = default);
+    Task<string> GetDefinitionsAsync(string keyword, CancellationToken cancellationToken = default);
 
     Task<IReadOnlyList<string>> GetExamplesAsync(string keyword, CancellationToken cancellationToken = default);
 
