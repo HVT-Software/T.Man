@@ -26,6 +26,7 @@ public class Program {
 
         builder.Services.AddApplication();
         builder.Services.AddRedis(builder.Configuration);
+        builder.Services.AddTranslateService();
 
         WebApplication app = builder.Build();
 
