@@ -62,9 +62,12 @@ public class TranslateService(IHttpClientFactory httpClientFactory) : ITranslate
         JsonElement[]? arr = await http.GetFromJsonAsync<JsonElement[]>(
             $"detection?string={Uri.EscapeDataString(text)}",
             cancellationToken);
-        string lang = arr![0].GetString()!;
+        if (arr == null || arr.Length < 2) {
+            throw new InvalidOperationException("The API response is invalid or does not contain the expected data.");
+        }
+        string lang = arr[0].GetString()!;
         double conf = arr[1].GetDouble();
-        return(lang, conf);
+        return (lang, conf);
     }
 
     public async Task<string> SeeMoreAsync(string keyword, CancellationToken cancellationToken = default) {
