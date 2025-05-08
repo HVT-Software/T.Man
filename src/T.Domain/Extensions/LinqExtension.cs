@@ -8,6 +8,28 @@ using System.Linq.Expressions;
 namespace T.Domain.Extensions;
 
 public static class LinqExtension {
+    public static IQueryable<TSource> WhereDate<TSource>(
+        this IQueryable<TSource> source,
+        DateTimeOffset? from,
+        DateTimeOffset? to,
+        Expression<Func<TSource, DateTimeOffset>> selector) {
+        ParameterExpression parameter = selector.Parameters[0];
+
+        if (from.HasValue) {
+            BinaryExpression body       = Expression.GreaterThanOrEqual(selector.Body, Expression.Constant(from.Value));
+            var              expression = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+            source = source.Where(expression);
+        }
+
+        if (to.HasValue) {
+            BinaryExpression body       = Expression.LessThanOrEqual(selector.Body, Expression.Constant(to.Value));
+            var              expression = Expression.Lambda<Func<TSource, bool>>(body, parameter);
+            source = source.Where(expression);
+        }
+
+        return source;
+    }
+
     public static IQueryable<TSource> WhereIf<TSource>(
         this IQueryable<TSource> source,
         bool when,
@@ -22,8 +44,7 @@ public static class LinqExtension {
         this IQueryable<TSource> source,
         Expression<Func<TSource, bool>> when,
         Expression<Func<TSource, bool>> predicateTrue) {
-        Expression<Func<TSource, bool>> expression =
-            Expression.Lambda<Func<TSource, bool>>(Expression.Or(Expression.And(when, predicateTrue), Expression.Not(when)));
+        var expression = Expression.Lambda<Func<TSource, bool>>(Expression.Or(Expression.And(when, predicateTrue), Expression.Not(when)));
 
         return source.Where(expression);
     }

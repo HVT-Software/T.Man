@@ -17,9 +17,10 @@ namespace T.Api.Controllers;
 [HvtAction]
 [Route("api/categories")]
 public class CategoryController(IServiceProvider serviceProvider) : BaseController(serviceProvider) {
-    [HttpGet]
+    [HttpPost]
+    [Route("list")]
     [HvtAction(EAction.CategoryView)]
-    public async Task<Result> GetList([FromQuery] ListCategoryQuery request) {
+    public async Task<Result> GetList(ListCategoryQuery request) {
         WrapperData<CategoryDto> result = await mediator.Send(request);
         return Result<WrapperData<CategoryDto>>.Ok(result);
     }

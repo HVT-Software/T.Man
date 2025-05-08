@@ -18,6 +18,7 @@ public class ListCategoryHandler(IServiceProvider serviceProvider)
     public override async Task<WrapperData<CategoryDto>> Handle(ListCategoryQuery request, CancellationToken cancellationToken) {
         IQueryable<CategoryDto> query = db.Categories.AsNoTracking()
             .Where(x => x.MerchantId == request.MerchantId && !x.IsDeleted)
+            .WhereDate(request.From, request.To, o => o.CreateAt)
             .OrderByDescending(o => o.CreateAt)
             .Select(o => CategoryDto.ToDto(o));
 
