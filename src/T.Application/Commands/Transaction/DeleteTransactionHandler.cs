@@ -1,10 +1,10 @@
-﻿#region
+#region
 
 using Microsoft.EntityFrameworkCore;
 using T.Application.Base;
 using T.Domain.Common;
 using T.Domain.Constants;
-using T.Domain.Extensions;
+using T.Domain.Exceptions;
 
 #endregion
 

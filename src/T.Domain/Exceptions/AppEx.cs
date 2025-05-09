@@ -1,10 +1,10 @@
-﻿#region
+#region
 
 using System.Diagnostics.CodeAnalysis;
 
 #endregion
 
-namespace T.Domain.Extensions;
+namespace T.Domain.Exceptions;
 
 public sealed class AppEx(string message) : Exception(message) {
     public static void ThrowIf([DoesNotReturnIf(true)] bool when, string message) {

@@ -1,10 +1,9 @@
-﻿#region
+#region
 
 using Microsoft.AspNetCore.Http;
 using T.Domain.Common;
 using T.Domain.Constants;
 using T.Domain.Exceptions;
-using T.Domain.Extensions;
 
 #endregion
 

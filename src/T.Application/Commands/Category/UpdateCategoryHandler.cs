@@ -1,11 +1,11 @@
-﻿#region
+#region
 
 using Microsoft.EntityFrameworkCore;
 using T.Application.Base;
 using T.Application.Models.Dto;
 using T.Domain.Common;
 using T.Domain.Constants;
-using T.Domain.Extensions;
+using T.Domain.Exceptions;
 
 #endregion
 
@@ -19,9 +19,9 @@ internal class UpdateCategoryHandler(IServiceProvider serviceProvider) : BaseHan
         Domain.Entities.Category? entity = await db.Categories.AsTracking().FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
         AppEx.ThrowIfNull(entity, Messages.NotFound);
 
-        entity.Name        = request.Model.Name;
+        entity.Name = request.Model.Name;
         entity.Description = request.Model.Description;
-        entity.Budget      = request.Model.Budget;
+        entity.Budget = request.Model.Budget;
 
         await db.SaveChangesAsync(cancellationToken);
         return CategoryDto.ToDto(entity);
