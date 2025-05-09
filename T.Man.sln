@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T.Domain", "src\T.Domain\T.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T.Infrastructure", "src\T.Infrastructure\T.Infrastructure.csproj", "{73981B45-173A-4950-B9FE-507757CCE751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T.Application", "src\T.Application\T.Application\T.Application.csproj", "{41838358-8184-4AAB-932E-0E07F407EAD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T.Application", "src\T.Application\T.Application.csproj", "{41838358-8184-4AAB-932E-0E07F407EAD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

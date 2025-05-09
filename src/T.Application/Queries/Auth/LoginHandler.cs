@@ -1,4 +1,4 @@
-﻿#region
+#region
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text;
 using T.Application.Base;
 using T.Domain.Constants;
-using T.Domain.Extensions;
+using T.Domain.Exceptions;
 using T.Domain.Interfaces;
 
 #endregion
@@ -16,23 +16,23 @@ using T.Domain.Interfaces;
 namespace T.Application.Queries.Auth;
 
 public class LoginQuery : IRequest<LoginResult> {
-    public string Username    { get; set; } = string.Empty;
-    public string Password    { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
     public string HasPassword { get; set; } = string.Empty;
 }
 
 
 public class LoginResult {
-    public string  RefreshToken { get; set; } = string.Empty;
-    public string  Token        { get; set; } = string.Empty;
-    public string  MerchantCode { get; set; } = string.Empty;
-    public string  MerchantName { get; set; } = string.Empty;
-    public string  Username     { get; set; } = string.Empty;
-    public string? Name         { get; set; }
-    public string? Email        { get; set; }
-    public string  Image        { get; set; } = string.Empty;
-    public long    ExpiredTime  { get; set; }
-    public long    Session      { get; set; }
+    public string RefreshToken { get; set; } = string.Empty;
+    public string Token { get; set; } = string.Empty;
+    public string MerchantCode { get; set; } = string.Empty;
+    public string MerchantName { get; set; } = string.Empty;
+    public string Username { get; set; } = string.Empty;
+    public string? Name { get; set; }
+    public string? Email { get; set; }
+    public string Image { get; set; } = string.Empty;
+    public long ExpiredTime { get; set; }
+    public long Session { get; set; }
 }
 
 
@@ -73,9 +73,9 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
 
         if (user.IsAdmin) { claims.Add(new Claim(TokenKey.TokenAdmin, TokenKey.TokenAdmin)); }
 
-        DateTime expiredAt   = GetTokenExpiredAt();
-        long     expiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds();
-        var      ttlKey      = TimeSpan.FromMilliseconds(expiredTime - user.LastSession);
+        DateTime expiredAt = GetTokenExpiredAt();
+        long expiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds();
+        var ttlKey = TimeSpan.FromMilliseconds(expiredTime - user.LastSession);
 
         string sessionKey = RedisKey.GetSessionKey(environment, user.Merchant!.Id, user.Id);
         await redisService.SetAsync(sessionKey, user.LastSession, ttlKey);
@@ -84,15 +84,15 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
 
         return new LoginResult {
             RefreshToken = GenerateRefreshToken(claims),
-            Token        = GenerateToken(claims, expiredAt),
-            ExpiredTime  = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds(),
+            Token = GenerateToken(claims, expiredAt),
+            ExpiredTime = new DateTimeOffset(expiredAt).ToUnixTimeMilliseconds(),
             MerchantCode = user.Merchant!.Code,
             MerchantName = user.Merchant!.Name,
-            Username     = user.Username,
-            Name         = user.Name,
-            Session      = user.LastSession,
-            Email        = user.Email,
-            Image        = user.Avatar ?? "",
+            Username = user.Username,
+            Name = user.Name,
+            Session = user.LastSession,
+            Email = user.Email,
+            Image = user.Avatar ?? "",
         };
     }
 
@@ -116,7 +116,7 @@ public class LoginHandler(IServiceProvider serviceProvider) : BaseHandler<LoginQ
 
     private string GenerateToken(List<Claim> claims, DateTime expiredAt) {
         SymmetricSecurityKey securityKey = new(Encoding.UTF8.GetBytes(configuration["JwtSecret"]!));
-        SigningCredentials   credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
+        SigningCredentials credentials = new(securityKey, SecurityAlgorithms.HmacSha256);
 
         JwtSecurityToken token = new(claims: claims, expires: expiredAt, signingCredentials: credentials);
 
