@@ -10,13 +10,14 @@ public class TransactionConfig : IEntityTypeConfiguration<Transaction> {
     public void Configure(EntityTypeBuilder<Transaction> builder) {
         builder.ToTable(nameof(Transaction));
 
-        builder.HasKey(t => t.Id);
-        builder.Property(t => t.Amount).HasCurrencyPrecision().IsRequired();
-        builder.Property(t => t.Date).HasDateConversion().IsRequired();
-        builder.Property(t => t.CreatedAt).HasDateConversion().IsRequired();
-        builder.Property(t => t.Description).HasMaxLength(500);
-        builder.Property(t => t.Type).IsRequired();
+        builder.HasKey(o => o.Id);
+        builder.Property(o => o.Amount).HasCurrencyPrecision().IsRequired();
+        builder.Property(o => o.Date).HasDateConversion().IsRequired();
+        builder.Property(o => o.CreatedAt).HasDateConversion().IsRequired();
+        builder.Property(o => o.Description).HasMaxLength(500);
+        builder.Property(o => o.Type).IsRequired();
 
-        builder.HasOne(t => t.User).WithMany(u => u.Transactions).HasForeignKey(t => t.UserId);
+        builder.HasOne(o => o.User).WithMany(u => u.Transactions).HasForeignKey(o => o.UserId);
+        builder.HasOne(o => o.Category).WithMany(c => c.Transactions).HasForeignKey(o => o.CategoryId);
     }
 }

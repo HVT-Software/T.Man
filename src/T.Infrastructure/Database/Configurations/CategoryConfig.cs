@@ -18,5 +18,6 @@ public class CategoryConfig : IEntityTypeConfiguration<Category> {
 
         // relationship
         builder.HasOne(o => o.Merchant).WithMany(o => o.Categories).HasForeignKey(o => o.MerchantId);
+        builder.HasMany(o=> o.Transactions).WithOne(o => o.Category).HasForeignKey(o => o.CategoryId);
     }
 }
