@@ -12,6 +12,8 @@ public class CategoryDto {
     public string? Description { get; set; }
     public decimal Budget      { get; set; }
 
+    public decimal Remaining { get; set; }
+
     public Guid            Id       { get; set; }
     public DateTimeOffset? CreateAt { get; set; }
 

@@ -15,4 +15,6 @@ public class Category : IEntity {
     public virtual Merchant?      Merchant    { get; set; }
     public         Guid           Id          { get; set; }
     public         bool           IsDeleted   { get; set; }
+    
+    public virtual ICollection<Transaction>? Transactions { get; set; }
 }
