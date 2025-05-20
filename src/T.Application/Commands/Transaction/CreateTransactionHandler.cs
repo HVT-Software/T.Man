@@ -8,7 +8,7 @@ using T.Domain.Extensions;
 namespace T.Application.Commands.Transaction;
 
 public class CreateTransactionCommand : Request<TransactionDto> {
-    public Guid             CategoryId  { get; set; }
+    public Guid?            CategoryId  { get; set; }
     public ETransactionType Type        { get; set; }
     public decimal          Amount      { get; set; }
     public string           Description { get; set; } = string.Empty;
@@ -32,7 +32,7 @@ public class CreateTransactionHandler(IServiceProvider serviceProvider)
             Id          = Guid.NewGuid(),
             UserId      = request.UserId,
             MerchantId  = request.MerchantId,
-            CategoryId  = request.CategoryId,
+            CategoryId  = request.Type == ETransactionType.Expense ? request.CategoryId : null,
             Description = request.Description,
             Amount      = request.Amount,
             Date        = request.Date,
