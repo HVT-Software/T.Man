@@ -29,7 +29,7 @@ public class ListTransactionHandler(IServiceProvider serviceProvider)
             .WhereIf(
                 !string.IsNullOrWhiteSpace(request.SearchText),
                 o => o.Description.Contains(request.SearchText!) || o.Category != null && o.Category.Name.Contains(request.SearchText!))
-            .WhereIf(request.CategoryIds.Count > 0, o => request.CategoryIds.Contains(o.CategoryId))
+            .WhereIf(request.CategoryIds.Count > 0, o => o.CategoryId.HasValue && request.CategoryIds.Contains(o.CategoryId.Value))
             .WhereIf(request.Types.Count > 0, o => request.Types.Contains(o.Type))
             .OrderByDescending(o => o.CreatedAt)
             .Select(o => TransactionDto.ToDto(o));
