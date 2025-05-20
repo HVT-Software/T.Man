@@ -9,4 +9,18 @@ public static class DateTimeExtension {
 
         return(from, to);
     }
+
+    public static (DateTimeOffset? From, DateTimeOffset? To) GetMonthRange(this DateTimeOffset dateTimeOffset) {
+        var startOfMonth = new DateTimeOffset(
+            dateTimeOffset.Year,
+            dateTimeOffset.Month,
+            1,
+            0,
+            0,
+            0,
+            dateTimeOffset.Offset);
+        DateTimeOffset endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+        return(startOfMonth, endOfMonth);
+    }
 }
