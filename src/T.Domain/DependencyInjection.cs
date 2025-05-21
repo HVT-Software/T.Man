@@ -21,7 +21,7 @@ public static class DependencyInjection {
         return app;
     }
 
-    public static void AddTranslateService(this IServiceCollection services) {
+    public static void AddDomainServices(this IServiceCollection services) {
         services.AddHttpClient(
             "datpmt",
             c => {
@@ -29,5 +29,6 @@ public static class DependencyInjection {
                 c.Timeout     = TimeSpan.FromSeconds(10);
             });
         services.AddScoped<ITranslateService, TranslateService>();
+        services.AddTransient<IEmailService, EmailService>();
     }
 }

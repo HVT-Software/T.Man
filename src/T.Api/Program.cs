@@ -3,6 +3,7 @@
 using T.Api.Extensions;
 using T.Application;
 using T.Domain;
+using T.Domain.Common.Configs;
 using T.Infrastructure;
 
 #endregion
@@ -12,6 +13,7 @@ namespace T.Api;
 public class Program {
     public static void Main(string[] args) {
         WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        builder.Services.Configure<EmailConfig>(builder.Configuration.GetSection(nameof(EmailConfig)));
 
         builder.Services.AddHvtContext(builder.Configuration);
         builder.Services.AddAuth(builder.Configuration);
@@ -26,7 +28,7 @@ public class Program {
 
         builder.Services.AddApplication();
         builder.Services.AddRedis(builder.Configuration);
-        builder.Services.AddTranslateService();
+        builder.Services.AddDomainServices();
 
         WebApplication app = builder.Build();
 

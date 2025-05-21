@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Crypto.AES"/>
     <PackageReference Include="FluentValidation"/>
+    <PackageReference Include="MailKit"/>
     <PackageReference Include="MediatR"/>
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation"/>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
@@ -23,6 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
