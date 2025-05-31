@@ -23,6 +23,8 @@ public class HvtContext : DbContext {
     public DbSet<Category>    Categories   { get => Set<Category>(); }
     public DbSet<Transaction> Transactions { get => Set<Transaction>(); }
 
+    public DbSet<Reminder> Reminders { get => Set<Reminder>(); }
+
     public DbSet<User> Users { get => Set<User>(); }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
